@@ -6,18 +6,28 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+if (!process.env.GEMINI_API_KEY) {
+  console.error("La clé GEMINI_API_KEY est absente !");
+}
+
+const genAI = new GoogleGenerativeAI(
+  process.env.GEMINI_API_KEY || ""
+);
 
 app.post("/api/chat", async (req, res) => {
   try {
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash"
+      model: "gemini-3.8-flash"
     });
 
     const result = await model.generateContent(req.body.message);
     res.json({ reply: result.response.text() });
+
   } catch (error) {
-    res.status(500).json({ error: "Erreur de connexion à NOVA." });
+    console.error("ERREUR GEMINI :", error);
+    res.status(500).json({
+      error: "Erreur de connexion à NOVA."
+    });
   }
 });
 
