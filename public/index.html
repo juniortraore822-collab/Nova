@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -83,34 +84,37 @@
     </div>
   </main>
   <script>
-   async function respond() {
+    async function respond() {
       const q = document.getElementById("question").value.trim();
       const a = document.getElementById("answer");
+
       if (!q) {
-  a.textContent = "Écris-moi quelque chose !";
-} else {
-  a.textContent = "NOVA réfléchit...";
+        a.textContent = "Écris-moi quelque chose !";
+        return;
+      }
 
-  try {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ message: q })
-    });
+      a.textContent = "NOVA réfléchit...";
 
-    const data = await response.json();
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message: q })
+        });
 
-    if (!response.ok) {
-      throw new Error(data.error || "Erreur serveur");
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Erreur serveur");
+        }
+
+        a.textContent = data.reply;
+      } catch (error) {
+        a.textContent = "Je n'arrive pas à me connecter. Réessaie.";
+      }
     }
-
-    a.textContent = data.reply;
-  } catch (error) {
-    a.textContent = "Je n'arrive pas à me connecter. Réessaie.";
-  }
-}
-</script>
+  </script>
 </body>
 </html>
