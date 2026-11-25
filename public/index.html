@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA Assistant</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #090711;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 24px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #302440;
+      padding-bottom: 20px;
+    }
+    .logo {
+      background: linear-gradient(135deg,#a855f7,#5422a8);
+      padding: 14px 19px;
+      border-radius: 15px;
+      font-size: 25px;
+      font-weight: bold;
+    }
+    h1 { margin: 0; letter-spacing: 3px; }
+    header p { color: #aaa; margin: 5px 0; }
+    .status { color: #55e6a5; font-size: 12px; margin-left: auto; }
+    main { text-align: center; margin-top: 65px; }
+    .star { font-size: 65px; color: #bd82ff; }
+    h2 { font-size: 25px; }
+    .intro { color: #aaa; }
+    .panel {
+      margin-top: 40px;
+      background: #171221;
+      padding: 22px;
+      border-radius: 20px;
+      border: 1px solid #38254e;
+    }
+    input {
+      width: 100%;
+      padding: 16px;
+      background: #0d0a15;
+      border: 1px solid #60417e;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 12px;
+      background: #8b43d7;
+      color: white;
+      font-size: 16px;
+    }
+    #answer { color: #d6b9ff; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">N</div>
+    <div>
+      <h1>NOVA</h1>
+      <p>Assistant personnel intelligent</p>
+    </div>
+    <span class="status">● EN LIGNE</span>
+  </header>
+  <main>
+    <div class="star">✦</div>
+    <h2>Bonjour, bienvenue !</h2>
+    <p class="intro">Je suis NOVA. Comment puis-je t'aider ?</p>
+    <div class="panel">
+      <input id="question" placeholder="Écris quelque chose...">
+      <button onclick="respond()">Envoyer à NOVA ➜</button>
+      <div id="answer"></div>
+    </div>
+  </main>
+  <script>
+    function respond() {
+      const q = document.getElementById("question").value.trim();
+      const a = document.getElementById("answer");
+      if (!q) {
+        a.textContent = "Écris-moi quelque chose !";
+      } else {
+        a.textContent = "J'ai reçu ton message : " + q;
+      }
+    }
+  </script>
+</body>
+</html>
