@@ -84,15 +84,31 @@
     </div>
   </main>
   <script>
-    function respond() {
+   async function respond() {
       const q = document.getElementById("question").value.trim();
       const a = document.getElementById("answer");
       if (!q) {
-        a.textContent = "Écris-moi quelque chose !";
-      } else {
-        a.textContent = "J'ai reçu ton message : " + q;
-      }
+  a.textContent = "Écris-moi quelque chose !";
+} else {
+  a.textContent = "NOVA réfléchit...";
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: q })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Erreur serveur");
     }
-  </script>
-</body>
-</html>
+
+    a.textContent = data.reply;
+  } catch (error) {
+    a.textContent = "Je n'arrive pas à me connecter. Réessaie.";
+  }
+}
