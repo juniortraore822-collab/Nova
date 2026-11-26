@@ -71,7 +71,7 @@ h3 { font-size: 16px; }
   margin-top: 8px;
 }
 
-input, textarea {
+input {
   width: 100%;
   padding: 14px;
   background: #0d0a15;
@@ -94,16 +94,9 @@ button {
 }
 
 button:disabled { opacity: .5; }
-
 .full { width: 100%; }
-
-.secondary {
-  background: #302440;
-}
-
-.danger {
-  background: #702e43;
-}
+.secondary { background: #302440; }
+.danger { background: #702e43; }
 
 #answer {
   color: #dfc6ff;
@@ -139,7 +132,6 @@ button:disabled { opacity: .5; }
   border-bottom: 1px solid #302440;
   font-size: 13px;
 }
-
 </style>
 </head>
 
@@ -157,7 +149,7 @@ button:disabled { opacity: .5; }
 <section class="welcome">
   <div class="star">✦</div>
   <h2>Bonjour ! Je suis NOVA.</h2>
-  <p class="muted">Ton assistant personnel intelligent.</p>
+  <p class="muted">Ton assistante personnelle intelligente.</p>
 </section>
 
 <h3>Mon tableau de bord</h3>
@@ -188,6 +180,10 @@ button:disabled { opacity: .5; }
 
   <button class="full secondary" onclick="startVoice()">
     🎤 Parler à NOVA
+  </button>
+
+  <button class="full secondary" id="voiceButton" onclick="toggleVoice()">
+    🔊 Voix NOVA : Activée
   </button>
 
   <p class="muted" id="voiceStatus"></p>
@@ -223,7 +219,7 @@ button:disabled { opacity: .5; }
 
 <script>
 
-// MÉMOIRE ET HISTORIQUE
+// CHARGEMENT DES DONNÉES
 
 function loadData(key, fallback) {
   try {
@@ -238,10 +234,46 @@ let conversation = loadData("nova_memory", []);
 let novaMemory = loadData("nova_personal_memory", []);
 let tasks = loadData("nova_tasks", []);
 
+let voiceEnabled = true;
+
 function saveData() {
   localStorage.setItem("nova_memory", JSON.stringify(conversation));
   localStorage.setItem("nova_personal_memory", JSON.stringify(novaMemory));
   localStorage.setItem("nova_tasks", JSON.stringify(tasks));
+}
+
+// VOIX DE NOVA
+
+function speak(text) {
+  if (!voiceEnabled || !("speechSynthesis" in window)) return;
+
+  window.speechSynthesis.cancel();
+
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "fr-FR";
+  speech.rate = 0.95;
+  speech.pitch = 1;
+  speech.volume = 1;
+
+  const voices = window.speechSynthesis.getVoices();
+  const frenchVoice = voices.find(v => v.lang.startsWith("fr"));
+
+  if (frenchVoice) {
+    speech.voice = frenchVoice;
+  }
+
+  window.speechSynthesis.speak(speech);
+}
+
+function toggleVoice() {
+  voiceEnabled = !voiceEnabled;
+
+  if (!voiceEnabled && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+
+  document.getElementById("voiceButton").textContent =
+    voiceEnabled ? "🔊 Voix NOVA : Activée" : "🔇 Voix NOVA : Désactivée";
 }
 
 // MÉMOIRE PERSONNELLE
@@ -295,8 +327,9 @@ async function respond() {
     return;
   }
 
-  // Commande pour enregistrer une information
-  const match = q.match(/^(?:retiens que|souviens-toi que|mémorise que)\s+(.+)$/i);
+  const match = q.match(
+    /^(?:retiens que|souviens-toi que|mémorise que)\s+(.+)$/i
+  );
 
   if (match) {
     remember(match[1]);
@@ -322,9 +355,14 @@ async function respond() {
       throw new Error(data.error || "Erreur serveur");
     }
 
-    if (!data.reply) throw new Error("Réponse vide");
+    if (!data.reply) {
+      throw new Error("Réponse vide");
+    }
 
     answer.textContent = data.reply;
+
+    // NOVA PARLE À HAUTE VOIX
+    speak(data.reply);
 
     conversation.push(
       { role: "user", content: q },
@@ -370,7 +408,7 @@ function startVoice() {
       event.results[0][0].transcript;
 
     document.getElementById("voiceStatus").textContent =
-      "Message reconnu. Envoi en cours...";
+      "Message reconnu. NOVA répond...";
 
     respond();
   };
@@ -383,7 +421,7 @@ function startVoice() {
   recognition.start();
 }
 
-// TÂCHES ET RAPPELS
+// GESTION DES TÂCHES
 
 function addTask() {
   const title = document.getElementById("taskTitle").value.trim();
@@ -463,8 +501,7 @@ function renderTasks() {
     tasks.filter(t => !t.done && t.date).length;
 }
 
-// VÉRIFICATION DES RAPPELS
-// Les alertes fonctionnent lorsque NOVA est ouvert.
+// RAPPELS
 
 function checkReminders() {
   const now = Date.now();
@@ -489,9 +526,13 @@ function checkReminders() {
   }
 }
 
+// TOUCHE ENTRÉE
+
 document.getElementById("question").addEventListener("keydown", event => {
   if (event.key === "Enter") respond();
 });
+
+// INITIALISATION
 
 renderMemory();
 renderTasks();
@@ -499,6 +540,5 @@ checkReminders();
 setInterval(checkReminders, 30000);
 
 </script>
-
 </body>
 </html>
