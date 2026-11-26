@@ -3,268 +3,399 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080817">
-<title>ALFRED — Personal Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070817">
+<title>ALFRED | Personal Intelligence</title>
 
 <style>
-:root {
-  --bg:#080817;
-  --panel:#11152b;
-  --panel2:#191d3b;
-  --blue:#398cff;
-  --purple:#914cff;
+:root{
+  --bg:#070817;
+  --panel:#10152c;
+  --panel2:#151c38;
+  --blue:#348dff;
+  --purple:#9657ff;
   --text:#f5f3ff;
-  --muted:#a8a8c9;
-  --border:rgba(151,111,255,.22);
-  --green:#48d6a0;
+  --muted:#a5abc9;
+  --line:rgba(145,112,255,.25);
+  --green:#42e0aa;
   --red:#ff647c;
 }
 *{box-sizing:border-box}
 body{
   margin:0;
-  background:radial-gradient(ellipse at top,#17143c 0%,#080817 65%);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(ellipse at 50% -20%,#24205b 0%,transparent 48%),
+    radial-gradient(ellipse at 100% 50%,#101c49 0%,transparent 35%),
+    var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 button,input,textarea{font:inherit}
 button{cursor:pointer}
-header{
-  padding:17px 18px;
+button:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--blue);
+  outline-offset:2px;
+}
+.app{max-width:1250px;margin:auto;padding:0 20px 40px}
+
+/* IDENTITÉ ALFRED */
+
+.top{
+  padding:27px 0 20px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:rgba(8,8,23,.94);
-  backdrop-filter:blur(18px);
+  justify-content:center;
+  gap:20px;
+  text-align:left;
+  border-bottom:1px solid var(--line);
 }
-.brand{display:flex;align-items:center;gap:12px}
-.logo{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  overflow:hidden;
-  border:1px solid #8058ff;
-  box-shadow:0 0 20px #7655ff88;
+.emblem{
+  width:92px;
+  height:92px;
   flex-shrink:0;
-}
-.logo img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+  filter:drop-shadow(0 0 15px #8055ff88);
 }
 .brand h1{
-  font-size:20px;
   margin:0;
-  letter-spacing:3px;
-}
-.brand p{
-  font-size:9px;
-  color:var(--muted);
-  margin:4px 0 0;
-  letter-spacing:1.5px;
-}
-.status{font-size:11px;color:var(--green)}
-main{max-width:900px;margin:auto;padding:16px 14px 100px}
-.panel{
-  background:linear-gradient(145deg,#171a37,#101329);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:15px;
-  box-shadow:0 10px 35px #0003;
-}
-.hero{
-  text-align:center;
-  padding:25px 17px;
-  background:radial-gradient(circle at top,#29205d,#111329 70%);
-  border-color:#7650ff88;
-}
-.orb{
-  width:112px;
-  height:112px;
-  border-radius:50%;
-  margin:0 auto 14px;
-  overflow:hidden;
-  border:2px solid #855bff;
-  box-shadow:0 0 30px #7850ff88;
-}
-.orb img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.hero h2{
-  font-size:25px;
-  margin:10px 0;
-  background:linear-gradient(90deg,#fff,#bba1ff);
+  font-size:clamp(27px,5vw,43px);
+  letter-spacing:8px;
+  font-weight:800;
+  background:linear-gradient(100deg,#fff,#a7baff,#bd8aff);
+  color:transparent;
   background-clip:text;
   -webkit-background-clip:text;
-  color:transparent;
 }
-.hero p{
-  color:var(--muted);
-  line-height:1.6;
-  font-size:14px;
+.brand p{
+  margin:7px 0 0;
+  color:#aeb6df;
+  font-size:11px;
+  letter-spacing:3px;
 }
-h2,h3{margin-top:0}
-h3{font-size:16px}
-.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.online{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--green);
+  font-size:11px;
+  margin-top:9px;
+}
+.online span{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px var(--green);
+}
+
+/* NAVIGATION */
+
 nav{
   display:flex;
-  gap:8px;
+  gap:9px;
   overflow-x:auto;
-  padding:10px 0 17px;
+  padding:17px 0 20px;
   scrollbar-width:none;
 }
+nav::-webkit-scrollbar{display:none}
 nav button{
-  flex-shrink:0;
-  border:1px solid var(--border);
-  background:var(--panel);
-  color:var(--muted);
-  padding:11px 14px;
+  flex:1;
+  min-width:max-content;
+  padding:12px 15px;
   border-radius:13px;
+  border:1px solid var(--line);
+  color:#c4c6e8;
+  background:#10132b;
+  transition:.2s;
 }
 nav button.active{
   color:white;
-  border-color:#805cff;
-  background:linear-gradient(120deg,#5832c9,#3549a9);
-  box-shadow:0 0 15px #7655ff44;
+  border-color:#a078ff;
+  background:linear-gradient(120deg,#5829c5,#304da8);
+  box-shadow:0 0 20px #7655ff44;
 }
+
+/* STRUCTURE */
+
 .page{display:none}
 .page.active{display:block}
-.grid{
+.layout{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
+  grid-template-columns:1.25fr .9fr;
+  gap:18px;
 }
-.stat{
-  padding:15px;
-  border-radius:15px;
-  background:var(--panel2);
-  border:1px solid var(--border);
+.column{min-width:0}
+.card{
+  padding:21px;
+  border:1px solid var(--line);
+  border-radius:19px;
+  background:linear-gradient(145deg,rgba(22,27,57,.97),rgba(11,15,34,.97));
+  box-shadow:0 12px 35px #0003;
+  margin-bottom:17px;
 }
-.stat strong{
-  display:block;
-  font-size:25px;
-  margin-top:7px;
+.card h2,.card h3{margin-top:0}
+.card h3{font-size:17px}
+.eyebrow{
+  font-size:10px;
+  letter-spacing:2px;
+  color:#a991ff;
+  text-transform:uppercase;
 }
-.stat span{font-size:12px;color:var(--muted)}
-input,textarea{
-  width:100%;
-  background:#0b1024;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:13px;
-  outline:none;
-  margin:7px 0;
+.muted{color:var(--muted);font-size:13px;line-height:1.65}
+
+/* ACCUEIL */
+
+.welcome{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:25px;
+  min-height:205px;
+  border-color:#8255ff99;
+  background:
+    radial-gradient(circle at 10% 50%,#4830a455,transparent 42%),
+    linear-gradient(120deg,#17183c,#10142e);
+  box-shadow:0 0 28px #754cff20;
 }
-input:focus,textarea:focus{border-color:var(--blue)}
-textarea{resize:vertical;min-height:90px}
+.welcome-symbol{
+  width:120px;
+  height:120px;
+  flex-shrink:0;
+  border:1px solid #8c6aff;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle,#29255e,#090d22);
+  box-shadow:0 0 30px #8255ff66,inset 0 0 20px #5c48c944;
+}
+.welcome-symbol svg{width:90px;height:90px}
+.welcome h2{
+  font-size:clamp(23px,4vw,34px);
+  margin:0 0 9px;
+  background:linear-gradient(90deg,#fff,#bca5ff);
+  color:transparent;
+  background-clip:text;
+  -webkit-background-clip:text;
+}
+.welcome p{margin:0 0 15px;color:#c3c5e2;line-height:1.6;font-size:14px}
+
 .btn{
   border:0;
-  border-radius:13px;
-  padding:12px 16px;
   color:white;
-  background:linear-gradient(120deg,var(--blue),var(--purple));
-  font-weight:600;
+  background:linear-gradient(110deg,#326fe0,#7944dc);
+  padding:12px 17px;
+  border-radius:12px;
+  font-weight:650;
+  box-shadow:0 5px 17px #6846db33;
 }
 .btn.secondary{
-  background:#25264c;
-  border:1px solid var(--border);
+  background:#20274c;
+  border:1px solid var(--line);
+  box-shadow:none;
 }
-.btn.danger{background:#64283a}
+.btn.danger{background:#702b42}
 .btn.small{padding:8px 11px;font-size:12px}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.chatbox{
-  height:360px;
-  overflow-y:auto;
-  background:#090d20;
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+/* STATISTIQUES */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin:17px 0;
+}
+.stat{
+  padding:16px 10px;
+  text-align:center;
   border-radius:15px;
-  border:1px solid var(--border);
-  padding:12px;
-  margin-bottom:10px;
+  background:linear-gradient(145deg,#171d3d,#10152c);
+  border:1px solid var(--line);
+}
+.stat-icon{font-size:22px;color:#a58aff}
+.stat strong{display:block;font-size:27px;margin:7px 0 4px}
+.stat span{font-size:11px;color:var(--muted)}
+
+/* PROGRAMME ET CONSEILS */
+
+.schedule-icon{
+  width:60px;height:60px;
+  display:grid;place-items:center;
+  margin:20px auto 10px;
+  border-radius:17px;
+  background:#222456;
+  color:#a98cff;
+  font-size:29px;
+}
+.schedule-empty{text-align:center;padding:12px;color:var(--muted);font-size:13px}
+.advice{
+  background:
+    radial-gradient(circle at 100% 100%,#4929a844,transparent 50%),
+    linear-gradient(145deg,#19183e,#11152e);
+}
+.advice-icon{font-size:26px;margin-bottom:10px}
+.advice p{line-height:1.6;color:#c6c6e1;font-size:14px}
+
+/* LOGO SECONDAIRE */
+
+.identity-card{
+  padding:0;
+  overflow:hidden;
+  min-height:200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(ellipse at 50% 100%,#1747a8 0%,transparent 58%),
+    radial-gradient(ellipse at 50% 0%,#4221a4 0%,transparent 55%),
+    #080c20;
+}
+.identity-card svg{width:180px;max-width:60%;height:auto}
+.identity-caption{text-align:center;padding:0 0 20px}
+.identity-caption strong{letter-spacing:7px;font-size:19px}
+.identity-caption p{color:#a88bff;font-size:12px;letter-spacing:2px}
+
+/* FORMULAIRES */
+
+input,textarea{
+  width:100%;
+  background:#090e23;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:13px;
+  margin:7px 0;
+  outline:none;
+}
+input:focus,textarea:focus{border-color:#7b6aff}
+textarea{min-height:95px;resize:vertical}
+label{display:block;color:var(--muted);font-size:12px;margin-top:9px}
+
+/* CHAT */
+
+.chatbox{
+  height:390px;
+  overflow-y:auto;
+  padding:13px;
+  border-radius:15px;
+  background:#090d20;
+  border:1px solid var(--line);
+  margin:14px 0;
 }
 .message{
-  padding:11px 13px;
-  border-radius:14px;
-  margin:9px 0;
   max-width:90%;
-  line-height:1.5;
+  padding:12px 14px;
+  margin:9px 0;
+  border-radius:14px;
   font-size:14px;
+  line-height:1.55;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
 }
-.message.alfred{
-  background:#202448;
-  border:1px solid #ffffff12;
-}
+.message.alfred{background:#20264a;border:1px solid #ffffff12}
 .message.user{
-  background:linear-gradient(120deg,#315eb0,#6746a9);
   margin-left:auto;
+  background:linear-gradient(120deg,#315eb0,#6746a9);
 }
-.chatrow{display:flex;gap:7px;align-items:center}
+.chatrow{display:flex;gap:8px;align-items:center}
 .chatrow input{flex:1;min-width:0}
-.chatrow button{flex-shrink:0}
+
+/* LISTES */
+
 .item{
   display:flex;
+  align-items:center;
   justify-content:space-between;
   gap:10px;
-  align-items:center;
   padding:13px;
   border-radius:13px;
-  background:#191e3b;
+  background:#171d3a;
+  border:1px solid var(--line);
   margin:9px 0;
-  border:1px solid var(--border);
 }
-.item small{
-  display:block;
-  color:var(--muted);
-  margin-top:5px;
-}
+.item-content{flex:1;min-width:0;overflow-wrap:anywhere}
+.item small{display:block;color:var(--muted);margin-top:5px}
 .item.done{opacity:.5}
 .item.done .item-title{text-decoration:line-through}
-.empty{
-  color:var(--muted);
-  font-size:13px;
-  text-align:center;
-  padding:20px;
-}
+.empty{text-align:center;padding:20px;color:var(--muted);font-size:13px}
 footer{
+  padding:23px 10px;
   text-align:center;
-  color:#8887ad;
+  color:#8387ad;
   font-size:11px;
-  padding:25px;
+  border-top:1px solid var(--line);
+  margin-top:15px;
 }
-@media(max-width:430px){
-  main{padding-left:12px;padding-right:12px}
-  .panel{padding:15px}
-  .hero h2{font-size:22px}
+
+/* MOBILE */
+
+@media(max-width:760px){
+  .app{padding:0 12px 30px}
+  .top{padding:19px 0 16px;gap:13px}
+  .emblem{width:70px;height:70px}
+  .brand h1{font-size:29px;letter-spacing:5px}
+  .brand p{font-size:8px;letter-spacing:1.7px}
+  nav{padding:13px 0 16px}
+  nav button{flex:0 0 auto;padding:11px 13px}
+  .layout{grid-template-columns:1fr;gap:0}
+  .welcome{padding:20px;gap:14px}
+  .welcome-symbol{width:86px;height:86px}
+  .welcome-symbol svg{width:66px;height:66px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card{padding:16px}
+}
+@media(max-width:380px){
+  .welcome{display:block;text-align:center}
+  .welcome-symbol{margin:0 auto 16px}
+  .brand h1{font-size:25px}
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<header>
+<!-- EMBLÈME ORIGINAL ALFRED -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+  <linearGradient id="wingMetal" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff"/>
+    <stop offset=".35" stop-color="#9eb8ff"/>
+    <stop offset=".7" stop-color="#5b65a8"/>
+    <stop offset="1" stop-color="#d9caff"/>
+  </linearGradient>
+  <linearGradient id="halo" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#398dff"/>
+    <stop offset=".55" stop-color="#9853ff"/>
+    <stop offset="1" stop-color="#4c37b7"/>
+  </linearGradient>
+</defs>
+</svg>
+
+<header class="top">
+  <svg class="emblem" viewBox="0 0 120 120" role="img" aria-label="Emblème ALFRED">
+    <circle cx="60" cy="60" r="53" fill="none" stroke="url(#halo)" stroke-width="2"/>
+    <circle cx="60" cy="60" r="46" fill="#0d1028" stroke="#6876dc" stroke-opacity=".6"/>
+    <path d="M60 31
+      L51 41 L43 37 L38 45
+      L20 40 L29 56 L15 55
+      L31 72 L42 69 L49 83
+      L57 74 L60 89 L63 74
+      L71 83 L78 69 L89 72
+      L105 55 L91 56 L100 40
+      L82 45 L77 37 L69 41 Z"
+      fill="url(#wingMetal)" stroke="#d9e3ff" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M60 31 L60 89 M43 48 L53 59 L60 54 L67 59 L77 48"
+      fill="none" stroke="#28345f" stroke-width="2"/>
+    <path d="M44 59 L54 63 L60 59 L66 63 L76 59"
+      fill="none" stroke="#ffffff" stroke-opacity=".65" stroke-width="1.4"/>
+    <circle cx="60" cy="60" r="3" fill="#fff"/>
+  </svg>
+
   <div class="brand">
-    <div class="logo">
-      <img src="/alfred-embleme.png" alt="Emblème ALFRED">
-    </div>
-    <div>
-      <h1>ALFRED</h1>
-      <p>PERSONAL INTELLIGENCE</p>
-    </div>
+    <h1>ALFRED</h1>
+    <p>PERSONAL INTELLIGENCE</p>
+    <div class="online"><span></span> Système opérationnel</div>
   </div>
-  <div class="status">● En ligne</div>
 </header>
-
-<main>
 
 <nav>
   <button class="active" data-page="home">⌂ Accueil</button>
@@ -275,167 +406,185 @@ footer{
   <button data-page="chat">✦ ALFRED IA</button>
 </nav>
 
+<!-- ACCUEIL -->
 <section id="home" class="page active">
 
-  <div class="panel hero">
-    <div class="orb">
-      <img src="/alfred-embleme.png" alt="Emblème ALFRED">
+<div class="layout">
+<div class="column">
+
+  <div class="card welcome">
+    <div class="welcome-symbol">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="54" fill="none" stroke="url(#halo)" stroke-width="2"/>
+        <path d="M60 31 L51 41 L43 37 L38 45 L20 40 L29 56 L15 55 L31 72 L42 69 L49 83 L57 74 L60 89 L63 74 L71 83 L78 69 L89 72 L105 55 L91 56 L100 40 L82 45 L77 37 L69 41 Z"
+          fill="url(#wingMetal)" stroke="#d9e3ff" stroke-width="1.5"/>
+        <path d="M60 31 L60 89 M43 48 L54 62 L60 56 L66 62 L77 48"
+          fill="none" stroke="#29345e" stroke-width="2"/>
+      </svg>
     </div>
 
-    <h2>Bonjour Baha. 👋</h2>
-
-    <p>
-      Je suis ALFRED, votre assistant personnel intelligent.
-      Je peux vous aider à réfléchir, organiser vos activités,
-      préparer vos messages et conserver vos informations importantes.
-    </p>
-
-    <button class="btn" onclick="showPage('chat')">
-      Parler avec ALFRED →
-    </button>
+    <div>
+      <div class="eyebrow">Votre assistant personnel</div>
+      <h2>Bonjour Baha. 👋</h2>
+      <p>
+        Je suis ALFRED. Je peux vous aider à réfléchir,
+        organiser vos activités et garder le cap sur vos objectifs.
+      </p>
+      <button class="btn" onclick="showPage('chat')">Parler avec ALFRED →</button>
+    </div>
   </div>
 
-  <div class="grid">
+  <div class="stats">
     <div class="stat">
-      <span>Tâches à faire</span>
+      <div class="stat-icon">✓</div>
       <strong id="taskCount">0</strong>
+      <span>Tâches à faire</span>
     </div>
     <div class="stat">
-      <span>Tâches terminées</span>
+      <div class="stat-icon">⚑</div>
       <strong id="doneCount">0</strong>
+      <span>Tâches terminées</span>
     </div>
     <div class="stat">
-      <span>Rappels actifs</span>
+      <div class="stat-icon">♧</div>
       <strong id="reminderCount">0</strong>
+      <span>Rappels actifs</span>
     </div>
     <div class="stat">
-      <span>Souvenirs enregistrés</span>
+      <div class="stat-icon">◈</div>
       <strong id="memoryCount">0</strong>
+      <span>Souvenirs</span>
     </div>
   </div>
 
-  <div class="panel" style="margin-top:15px">
-    <h3>💡 Conseils d'ALFRED</h3>
-    <p class="muted" id="dailyAdvice">
-      Ajoutez quelques tâches pour recevoir des suggestions.
-    </p>
-    <button class="btn secondary" onclick="showPage('tasks')">
-      Organiser ma journée
-    </button>
+  <div class="card advice">
+    <div class="advice-icon">✧</div>
+    <h3>Conseils d'ALFRED</h3>
+    <p id="dailyAdvice">Ajoutez quelques tâches pour commencer à organiser votre journée.</p>
+    <button class="btn secondary" onclick="showPage('tasks')">Organiser ma journée</button>
   </div>
 
-  <div class="panel">
-    <h3>◷ Mon programme</h3>
-    <div id="homeReminders"></div>
+</div>
+
+<div class="column">
+
+  <div class="card">
+    <div class="eyebrow">Organisation</div>
+    <h3>◷ Ton programme</h3>
+    <div id="homeReminders">
+      <div class="schedule-icon">▦</div>
+      <div class="schedule-empty">Aucune activité prévue.</div>
+    </div>
   </div>
 
-  <div class="panel">
-    <h3>🦇 ALFRED — Toujours à vos côtés</h3>
-    <p class="muted">
-      Votre assistant personnel, disponible lorsque vous ouvrez cette application.
-    </p>
+  <div class="card identity-card">
+    <svg viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="54" fill="none" stroke="url(#halo)" stroke-width="2"/>
+      <circle cx="60" cy="60" r="46" fill="#0d1028" stroke="#6876dc" stroke-opacity=".6"/>
+      <path d="M60 31 L51 41 L43 37 L38 45 L20 40 L29 56 L15 55 L31 72 L42 69 L49 83 L57 74 L60 89 L63 74 L71 83 L78 69 L89 72 L105 55 L91 56 L100 40 L82 45 L77 37 L69 41 Z"
+        fill="url(#wingMetal)" stroke="#d9e3ff" stroke-width="1.5"/>
+      <path d="M60 31 L60 89 M43 48 L54 62 L60 56 L66 62 L77 48"
+        fill="none" stroke="#29345e" stroke-width="2"/>
+    </svg>
+  </div>
+  <div class="identity-caption">
+    <strong>ALFRED</strong>
+    <p>TOUJOURS À VOS CÔTÉS</p>
   </div>
 
+  <div class="card">
+    <h3>◈ Votre espace personnel</h3>
+    <p class="muted">Vos tâches, vos rappels et vos notes sont enregistrés dans ce navigateur.</p>
+    <button class="btn secondary" onclick="showPage('memory')">Ouvrir ma mémoire</button>
+  </div>
+
+</div>
+</div>
 </section>
 
+<!-- INTELLIGENCE -->
 <section id="chat" class="page">
-  <div class="panel">
-    <h3>✦ Intelligence ALFRED</h3>
-    <p class="muted">
-      Je suis à votre écoute, Baha. Que souhaitez-vous faire ?
-    </p>
+  <div class="card">
+    <div class="eyebrow">Intelligence artificielle</div>
+    <h2>✦ ALFRED IA</h2>
+    <p class="muted">Je suis à votre écoute, Baha. Que souhaitez-vous faire ?</p>
 
     <div id="chatbox" class="chatbox">
-      <div class="message alfred">
-        Bonjour Baha. Je suis ALFRED. Je suis prêt à vous assister.
-      </div>
+      <div class="message alfred">Bonjour Baha. Je suis ALFRED. Je suis prêt à vous assister.</div>
     </div>
 
     <div class="chatrow">
       <input id="question" placeholder="Écrivez à ALFRED..." autocomplete="off">
       <button class="btn" onclick="sendMessage()">Envoyer</button>
     </div>
-
     <div class="actions">
       <button class="btn secondary" onclick="startVoice()">🎙 Parler</button>
       <button class="btn secondary" onclick="stopSpeaking()">■ Arrêter la voix</button>
     </div>
-
     <p id="voiceStatus" class="muted"></p>
   </div>
 </section>
 
+<!-- TÂCHES -->
 <section id="tasks" class="page">
-  <div class="panel">
-    <h3>✓ Gestion des tâches</h3>
-    <p class="muted">Organisez vos objectifs et vos actions.</p>
-
-    <input id="taskInput" placeholder="Nouvelle tâche...">
-
-    <button class="btn" onclick="addTask()">Ajouter la tâche</button>
-
+  <div class="card">
+    <div class="eyebrow">Productivité</div>
+    <h2>✓ Gestion des tâches</h2>
+    <p class="muted">Définissez vos priorités et suivez votre progression.</p>
+    <input id="taskInput" placeholder="Quelle est votre prochaine tâche ?">
+    <button class="btn" onclick="addTask()">+ Ajouter une tâche</button>
     <div id="taskList"></div>
   </div>
 </section>
 
+<!-- RAPPELS -->
 <section id="reminders" class="page">
-  <div class="panel">
-    <h3>◷ Rappels personnels</h3>
-    <p class="muted">Enregistrez les choses importantes à ne pas oublier.</p>
-
+  <div class="card">
+    <div class="eyebrow">Organisation personnelle</div>
+    <h2>◷ Rappels</h2>
+    <p class="muted">Notez les événements et les choses importantes.</p>
     <input id="reminderInput" placeholder="Que faut-il vous rappeler ?">
-
-    <label class="muted">Date et heure</label>
+    <label>Date et heure</label>
     <input id="reminderDate" type="datetime-local">
-
     <button class="btn" onclick="addReminder()">Enregistrer le rappel</button>
-
     <div id="reminderList"></div>
   </div>
 </section>
 
+<!-- MESSAGES -->
 <section id="messages" class="page">
-  <div class="panel">
-    <h3>✉ Centre de rédaction</h3>
-    <p class="muted">
-      Préparez vos messages WhatsApp, SMS et publications.
-    </p>
-
+  <div class="card">
+    <div class="eyebrow">Communication</div>
+    <h2>✉ Centre de rédaction</h2>
+    <p class="muted">Préparez et conservez vos messages et publications.</p>
     <input id="messageTitle" placeholder="Titre ou destinataire">
     <textarea id="messageInput" placeholder="Écrivez votre message..."></textarea>
-
     <button class="btn" onclick="addMessage()">Enregistrer le message</button>
-
     <div id="messageList"></div>
   </div>
 </section>
 
+<!-- MÉMOIRE -->
 <section id="memory" class="page">
-  <div class="panel">
-    <h3>◈ Mémoire personnelle</h3>
-    <p class="muted">
-      Conservez les informations importantes que vous souhaitez retrouver.
-    </p>
-
+  <div class="card">
+    <div class="eyebrow">Mémoire personnelle</div>
+    <h2>◈ Souvenirs et notes</h2>
+    <p class="muted">Conservez les informations que vous souhaitez retrouver.</p>
     <textarea id="memoryInput" placeholder="Information à conserver..."></textarea>
-
     <button class="btn" onclick="addMemory()">Mémoriser</button>
-
     <div id="memoryList"></div>
   </div>
 </section>
 
 <footer>
-  ALFRED PERSONAL INTELLIGENCE · Vos données restent dans ce navigateur
+  ◈ ALFRED PERSONAL INTELLIGENCE · Vos données restent dans ce navigateur
 </footer>
-
-</main>
+</div>
 
 <script>
+/* ANCIENNES CLÉS CONSERVÉES POUR NE PAS PERDRE LES DONNÉES */
 
-/* STOCKAGE : anciennes clés conservées pour préserver les données */
-
-const STORAGE = {
+const STORAGE={
   tasks:"nova_tasks",
   reminders:"nova_reminders",
   messages:"nova_messages",
@@ -446,11 +595,8 @@ function load(key){
   try{
     const value=JSON.parse(localStorage.getItem(key)||"[]");
     return Array.isArray(value)?value:[];
-  }catch{
-    return [];
-  }
+  }catch{return []}
 }
-
 function save(key,data){
   localStorage.setItem(key,JSON.stringify(data));
 }
@@ -460,16 +606,17 @@ let reminders=load(STORAGE.reminders);
 let messages=load(STORAGE.messages);
 let memories=load(STORAGE.memory);
 
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  })[char]);
+}
+
 /* NAVIGATION */
 
 function showPage(page){
-  document.querySelectorAll(".page").forEach(el=>{
-    el.classList.remove("active");
-  });
-
-  document.querySelectorAll("nav button").forEach(el=>{
-    el.classList.remove("active");
-  });
+  document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));
+  document.querySelectorAll("nav button").forEach(el=>el.classList.remove("active"));
 
   const target=document.getElementById(page);
   if(target)target.classList.add("active");
@@ -479,49 +626,24 @@ function showPage(page){
 
   window.scrollTo({top:0,behavior:"smooth"});
 }
-
 document.querySelectorAll("nav button").forEach(button=>{
-  button.addEventListener("click",()=>{
-    showPage(button.dataset.page);
-  });
+  button.addEventListener("click",()=>showPage(button.dataset.page));
 });
-
-/* SÉCURISATION DES TEXTES AFFICHÉS */
-
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,char=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  })[char]);
-}
 
 /* TABLEAU DE BORD */
 
 function updateDashboard(){
-
-  document.getElementById("taskCount").textContent=
-    tasks.filter(t=>!t.done).length;
-
-  document.getElementById("doneCount").textContent=
-    tasks.filter(t=>t.done).length;
-
-  document.getElementById("reminderCount").textContent=
-    reminders.length;
-
-  document.getElementById("memoryCount").textContent=
-    memories.length;
+  document.getElementById("taskCount").textContent=tasks.filter(t=>!t.done).length;
+  document.getElementById("doneCount").textContent=tasks.filter(t=>t.done).length;
+  document.getElementById("reminderCount").textContent=reminders.length;
+  document.getElementById("memoryCount").textContent=memories.length;
 
   const advice=document.getElementById("dailyAdvice");
+  const remaining=tasks.filter(t=>!t.done).length;
 
-  if(tasks.length===0){
-    advice.textContent="Ajoutez quelques tâches pour commencer à organiser votre journée.";
-  }else{
-    advice.textContent="Vous avez "+tasks.filter(t=>!t.done).length+
-    " tâche(s) à accomplir. Avançons étape par étape, Baha.";
-  }
+  advice.textContent=tasks.length
+    ? "Vous avez "+remaining+" tâche(s) à accomplir. Avançons étape par étape, Baha."
+    : "Ajoutez quelques tâches pour commencer à organiser votre journée.";
 
   renderHomeReminders();
 }
@@ -531,25 +653,16 @@ function updateDashboard(){
 function addTask(){
   const input=document.getElementById("taskInput");
   const text=input.value.trim();
-
   if(!text)return;
 
-  tasks.unshift({
-    id:Date.now(),
-    text:text,
-    done:false
-  });
-
+  tasks.unshift({id:Date.now(),text,done:false});
   save(STORAGE.tasks,tasks);
   input.value="";
   renderTasks();
 }
 
 function toggleTask(id){
-  tasks=tasks.map(t=>
-    t.id===id?{...t,done:!t.done}:t
-  );
-
+  tasks=tasks.map(t=>t.id===id?{...t,done:!t.done}:t);
   save(STORAGE.tasks,tasks);
   renderTasks();
 }
@@ -561,24 +674,17 @@ function deleteTask(id){
 }
 
 function renderTasks(){
-
   const list=document.getElementById("taskList");
 
-  if(!tasks.length){
-    list.innerHTML='<div class="empty">Aucune tâche pour le moment.</div>';
-  }else{
-    list.innerHTML=tasks.map(t=>`
-      <div class="item ${t.done?"done":""}">
-        <span class="item-title">${escapeHTML(t.text)}</span>
-        <div class="actions">
-          <button class="btn small secondary" onclick="toggleTask(${t.id})">
-            ${t.done?"Annuler":"Terminé"}
-          </button>
-          <button class="btn small danger" onclick="deleteTask(${t.id})">✕</button>
-        </div>
+  list.innerHTML=tasks.length?tasks.map(t=>`
+    <div class="item ${t.done?"done":""}">
+      <div class="item-content item-title">${escapeHTML(t.text)}</div>
+      <div class="actions">
+        <button class="btn small secondary" onclick="toggleTask(${t.id})">${t.done?"Annuler":"Terminé"}</button>
+        <button class="btn small danger" onclick="deleteTask(${t.id})">✕</button>
       </div>
-    `).join("");
-  }
+    </div>
+  `).join(""):'<div class="empty">Aucune tâche pour le moment.</div>';
 
   updateDashboard();
 }
@@ -586,7 +692,6 @@ function renderTasks(){
 /* RAPPELS */
 
 function addReminder(){
-
   const input=document.getElementById("reminderInput");
   const date=document.getElementById("reminderDate");
   const text=input.value.trim();
@@ -596,17 +701,10 @@ function addReminder(){
     return;
   }
 
-  reminders.unshift({
-    id:Date.now(),
-    text:text,
-    date:date.value
-  });
-
+  reminders.unshift({id:Date.now(),text,date:date.value});
   save(STORAGE.reminders,reminders);
-
   input.value="";
   date.value="";
-
   renderReminders();
 }
 
@@ -617,51 +715,41 @@ function deleteReminder(id){
 }
 
 function renderReminders(){
-
   const list=document.getElementById("reminderList");
 
-  if(!reminders.length){
-    list.innerHTML='<div class="empty">Aucun rappel enregistré.</div>';
-  }else{
-    list.innerHTML=reminders.map(r=>`
-      <div class="item">
-        <div>
-          <span>${escapeHTML(r.text)}</span>
-          <small>${r.date?escapeHTML(new Date(r.date).toLocaleString("fr-FR")):"Sans date définie"}</small>
-        </div>
-        <button class="btn small danger" onclick="deleteReminder(${r.id})">✕</button>
+  list.innerHTML=reminders.length?reminders.map(r=>`
+    <div class="item">
+      <div class="item-content">
+        ${escapeHTML(r.text)}
+        <small>${r.date?escapeHTML(new Date(r.date).toLocaleString("fr-FR")):"Sans date définie"}</small>
       </div>
-    `).join("");
-  }
+      <button class="btn small danger" onclick="deleteReminder(${r.id})">✕</button>
+    </div>
+  `).join(""):'<div class="empty">Aucun rappel enregistré.</div>';
 
   updateDashboard();
 }
 
 function renderHomeReminders(){
-
   const list=document.getElementById("homeReminders");
-
   if(!list)return;
 
-  if(!reminders.length){
-    list.innerHTML='<div class="empty">Aucune activité prévue.</div>';
-    return;
-  }
-
-  list.innerHTML=reminders.slice(0,5).map(r=>`
+  list.innerHTML=reminders.length?reminders.slice(0,5).map(r=>`
     <div class="item">
-      <div>
+      <div class="item-content">
         <strong>${escapeHTML(r.text)}</strong>
         <small>${r.date?escapeHTML(new Date(r.date).toLocaleString("fr-FR")):"Date non définie"}</small>
       </div>
     </div>
-  `).join("");
+  `).join(""):`
+    <div class="schedule-icon">▦</div>
+    <div class="schedule-empty">Aucune activité prévue.</div>
+  `;
 }
 
 /* MESSAGES */
 
 function addMessage(){
-
   const title=document.getElementById("messageTitle").value.trim();
   const content=document.getElementById("messageInput").value.trim();
 
@@ -673,28 +761,23 @@ function addMessage(){
   messages.unshift({
     id:Date.now(),
     title:title||"Message sans titre",
-    content:content
+    content
   });
 
   save(STORAGE.messages,messages);
-
   document.getElementById("messageTitle").value="";
   document.getElementById("messageInput").value="";
-
   renderMessages();
 }
 
 function copyMessage(id){
-
   const message=messages.find(m=>m.id===id);
   if(!message)return;
 
   if(navigator.clipboard&&window.isSecureContext){
-
     navigator.clipboard.writeText(message.content)
-    .then(()=>alert("Message copié."))
-    .catch(()=>alert("Impossible de copier automatiquement."));
-
+      .then(()=>alert("Message copié."))
+      .catch(()=>alert("Impossible de copier automatiquement."));
   }else{
     alert("La copie automatique n'est pas disponible dans ce navigateur.");
   }
@@ -707,43 +790,31 @@ function deleteMessage(id){
 }
 
 function renderMessages(){
-
   const list=document.getElementById("messageList");
 
-  if(!messages.length){
-    list.innerHTML='<div class="empty">Aucun message préparé.</div>';
-  }else{
-    list.innerHTML=messages.map(m=>`
-      <div class="item">
-        <div style="flex:1;min-width:0">
-          <strong>${escapeHTML(m.title)}</strong>
-          <small>${escapeHTML(m.content)}</small>
-          <button class="btn small secondary" onclick="copyMessage(${m.id})">Copier</button>
-        </div>
-        <button class="btn small danger" onclick="deleteMessage(${m.id})">✕</button>
+  list.innerHTML=messages.length?messages.map(m=>`
+    <div class="item">
+      <div class="item-content">
+        <strong>${escapeHTML(m.title)}</strong>
+        <small>${escapeHTML(m.content)}</small>
+        <button class="btn small secondary" onclick="copyMessage(${m.id})">Copier</button>
       </div>
-    `).join("");
-  }
+      <button class="btn small danger" onclick="deleteMessage(${m.id})">✕</button>
+    </div>
+  `).join(""):'<div class="empty">Aucun message préparé.</div>';
 
   updateDashboard();
 }
 
-/* MÉMOIRE PERSONNELLE */
+/* MÉMOIRE */
 
 function addMemory(){
-
   const input=document.getElementById("memoryInput");
   const content=input.value.trim();
-
   if(!content)return;
 
-  memories.unshift({
-    id:Date.now(),
-    content:content
-  });
-
+  memories.unshift({id:Date.now(),content});
   save(STORAGE.memory,memories);
-
   input.value="";
   renderMemory();
 }
@@ -755,42 +826,32 @@ function deleteMemory(id){
 }
 
 function renderMemory(){
-
   const list=document.getElementById("memoryList");
 
-  if(!memories.length){
-    list.innerHTML='<div class="empty">La mémoire est encore vide.</div>';
-  }else{
-    list.innerHTML=memories.map(m=>`
-      <div class="item">
-        <div style="flex:1;min-width:0">${escapeHTML(m.content)}</div>
-        <button class="btn small danger" onclick="deleteMemory(${m.id})">✕</button>
-      </div>
-    `).join("");
-  }
+  list.innerHTML=memories.length?memories.map(m=>`
+    <div class="item">
+      <div class="item-content">${escapeHTML(m.content)}</div>
+      <button class="btn small danger" onclick="deleteMemory(${m.id})">✕</button>
+    </div>
+  `).join(""):'<div class="empty">La mémoire est encore vide.</div>';
 
   updateDashboard();
 }
 
-/* INTELLIGENCE ARTIFICIELLE */
+/* IA : CONNEXION AU SERVEUR EXISTANT */
 
 function addChatMessage(text,type){
-
   const box=document.getElementById("chatbox");
   const div=document.createElement("div");
-
   div.className="message "+type;
   div.textContent=text;
-
   box.appendChild(div);
   box.scrollTop=box.scrollHeight;
 }
 
 async function sendMessage(){
-
   const input=document.getElementById("question");
   const question=input.value.trim();
-
   if(!question)return;
 
   input.value="";
@@ -799,39 +860,30 @@ async function sendMessage(){
   const loading=document.createElement("div");
   loading.className="message alfred";
   loading.textContent="ALFRED réfléchit...";
-
   document.getElementById("chatbox").appendChild(loading);
 
   try{
-
     const response=await fetch("/api/chat",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({message:question})
     });
 
-    if(!response.ok){
-      throw new Error("Erreur serveur : "+response.status);
-    }
+    if(!response.ok)throw new Error("Erreur serveur : "+response.status);
 
     const data=await response.json();
-
     loading.remove();
 
     const reply=data.reply||"Je n'ai pas reçu de réponse exploitable.";
-
     addChatMessage(reply,"alfred");
     speak(reply);
 
   }catch(error){
-
     loading.remove();
-
     addChatMessage(
       "Je rencontre un problème de connexion au serveur. Vérifiez votre connexion et réessayez.",
       "alfred"
     );
-
     console.error(error);
   }
 }
@@ -840,14 +892,12 @@ document.getElementById("question").addEventListener("keydown",event=>{
   if(event.key==="Enter")sendMessage();
 });
 
-/* COMMANDE VOCALE */
+/* RECONNAISSANCE VOCALE */
 
 let recognition=null;
 
 function startVoice(){
-
-  const SpeechRecognition=
-    window.SpeechRecognition||window.webkitSpeechRecognition;
+  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 
   if(!SpeechRecognition){
     document.getElementById("voiceStatus").textContent=
@@ -860,18 +910,12 @@ function startVoice(){
   recognition.interimResults=false;
   recognition.continuous=false;
 
-  document.getElementById("voiceStatus").textContent=
-    "ALFRED vous écoute...";
+  document.getElementById("voiceStatus").textContent="ALFRED vous écoute...";
 
   recognition.onresult=event=>{
-
     const text=event.results[0][0].transcript;
-
     document.getElementById("question").value=text;
-
-    document.getElementById("voiceStatus").textContent=
-      "Commande reconnue : "+text;
-
+    document.getElementById("voiceStatus").textContent="Commande reconnue : "+text;
     sendMessage();
   };
 
@@ -883,44 +927,35 @@ function startVoice(){
   recognition.start();
 }
 
-/* VOIX D'ALFRED */
+/* SYNTHÈSE VOCALE */
 
 function speak(text){
-
   if(!("speechSynthesis" in window))return;
 
   window.speechSynthesis.cancel();
 
   const utterance=new SpeechSynthesisUtterance(text);
-
   utterance.lang="fr-FR";
-  utterance.rate=0.95;
-  utterance.pitch=0.9;
+  utterance.rate=.95;
+  utterance.pitch=.9;
 
   const voices=window.speechSynthesis.getVoices();
+  const frenchVoice=voices.find(v=>v.lang.toLowerCase().startsWith("fr"));
 
-  const frenchVoice=voices.find(v=>
-    v.lang.toLowerCase().startsWith("fr")
-  );
-
-  if(frenchVoice){
-    utterance.voice=frenchVoice;
-  }
+  if(frenchVoice)utterance.voice=frenchVoice;
 
   window.speechSynthesis.speak(utterance);
 }
 
 function stopSpeaking(){
-
   if("speechSynthesis" in window){
     window.speechSynthesis.cancel();
   }
 }
 
-/* INITIALISATION */
+/* DÉMARRAGE */
 
 function initialize(){
-
   renderTasks();
   renderReminders();
   renderMessages();
@@ -929,7 +964,6 @@ function initialize(){
 }
 
 initialize();
-
 </script>
 </body>
 </html>
