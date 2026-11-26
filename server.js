@@ -13,7 +13,7 @@ const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 app.post("/api/chat", async (req, res) => {
   try {
     const model = genAI.getGenerativeModel({
-      model: "gemini-3.8-flash"
+      model: model: "gemini-3.1-flash-lite"
     });
 
     let result;
