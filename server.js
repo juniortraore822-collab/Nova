@@ -1,44 +1,52 @@
 
 const express = require("express");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
 app.post("/api/chat", async (req, res) => {
   try {
-    const model = genAI.getGenerativeModel({
-      model: model: "gemini-3.1-flash-lite"
-    });
-
-    let result;
-
-    for (let attempt = 1; attempt <= 3; attempt++) {
-      try {
-        result = await model.generateContent(req.body.message);
-        break;
-      } catch (error) {
-        console.error("Tentative", attempt, error.message);
-
-        if (attempt === 3 || !String(error.message).includes("503")) {
-          throw error;
-        }
-
-        await wait(attempt * 3000);
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: "Tu es NOVA, un assistant personnel intelligent. Tu réponds en français, clairement et utilement."
+            },
+            {
+              role: "user",
+              content: req.body.message
+            }
+          ],
+          temperature: 0.7
+        })
       }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("ERREUR GROQ :", data);
+      throw new Error("Erreur API Groq");
     }
 
-    res.json({ reply: result.response.text() });
+    res.json({
+      reply: data.choices[0].message.content
+    });
 
   } catch (error) {
-    console.error("ERREUR GEMINI :", error);
+    console.error("ERREUR NOVA :", error);
     res.status(500).json({
-      error: "Gemini est temporairement indisponible. Réessaie."
+      error: "NOVA rencontre un problème. Réessaie."
     });
   }
 });
