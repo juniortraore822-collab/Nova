@@ -1,0 +1,14 @@
+
+{
+  "expo": {
+    "name": "ALFRED",
+    "slug": "alfred-assistant",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.alfred.assistant"
+    }
+  }
+}
