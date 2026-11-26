@@ -2,11 +2,37 @@
 const express = require("express");
 
 const app = express();
+
 app.use(express.json());
 app.use(express.static("public"));
 
 app.post("/api/chat", async (req, res) => {
   try {
+    const message = req.body.message;
+
+    // Récupérer les anciennes conversations
+    const history = Array.isArray(req.body.history)
+      ? req.body.history
+      : [];
+
+    if (!message) {
+      return res.status(400).json({
+        error: "Message vide"
+      });
+    }
+
+    // Vérifier et limiter l'historique
+    const safeHistory = history
+      .filter(item =>
+        (item.role === "user" || item.role === "assistant") &&
+        typeof item.content === "string"
+      )
+      .slice(-20)
+      .map(item => ({
+        role: item.role,
+        content: item.content.slice(0, 4000)
+      }));
+
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
@@ -20,11 +46,12 @@ app.post("/api/chat", async (req, res) => {
           messages: [
             {
               role: "system",
-              content: "Tu es NOVA, un assistant personnel intelligent. Tu réponds en français, clairement et utilement."
+              content: "Tu es NOVA, un assistant personnel intelligent. Tu réponds toujours en français, clairement, naturellement et utilement. Tu utilises les anciennes conversations fournies pour garder le contexte et te souvenir des informations importantes."
             },
+            ...safeHistory,
             {
               role: "user",
-              content: req.body.message
+              content: message
             }
           ],
           temperature: 0.7
@@ -36,7 +63,9 @@ app.post("/api/chat", async (req, res) => {
 
     if (!response.ok) {
       console.error("ERREUR GROQ :", data);
-      throw new Error("Erreur API Groq");
+      return res.status(500).json({
+        error: "Le service NOVA rencontre un problème."
+      });
     }
 
     res.json({
@@ -45,10 +74,13 @@ app.post("/api/chat", async (req, res) => {
 
   } catch (error) {
     console.error("ERREUR NOVA :", error);
+
     res.status(500).json({
       error: "NOVA rencontre un problème. Réessaie."
     });
   }
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000, () => {
+  console.log("NOVA est démarré !");
+});
