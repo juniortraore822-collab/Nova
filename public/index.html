@@ -7,538 +7,479 @@
 <title>NOVA Assistant</title>
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  padding: 18px;
-  background: #090711;
-  color: white;
-  font-family: Arial, sans-serif;
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090817;color:#f5f3ff;
+ font-family:Arial,sans-serif;padding:18px;
 }
-
-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid #302440;
-  padding-bottom: 16px;
+header{text-align:center;padding:18px 0}
+header h1{
+ font-size:35px;margin:0;
+ background:linear-gradient(90deg,#8b5cf6,#38bdf8);
+ background-clip:text;color:transparent;
 }
-
-.logo {
-  background: linear-gradient(135deg,#a855f7,#5422a8);
-  padding: 13px 18px;
-  border-radius: 14px;
-  font-size: 25px;
-  font-weight: bold;
+header p{color:#aaa;margin-top:8px}
+nav{
+ display:grid;grid-template-columns:repeat(2,1fr);
+ gap:9px;margin:18px 0;
 }
-
-h1 { margin: 0; letter-spacing: 3px; }
-header p { margin: 5px 0; color: #aaa; }
-.status { color: #55e6a5; font-size: 11px; margin-left: auto; }
-
-h2 { font-size: 20px; }
-h3 { font-size: 16px; }
-
-.welcome {
-  text-align: center;
-  margin: 28px 0;
+button{
+ border:0;border-radius:12px;padding:12px;
+ background:#7046d8;color:white;font-weight:bold;
+ cursor:pointer;font-size:14px;
 }
-
-.star { font-size: 48px; color: #bd82ff; }
-
-.muted { color: #aaa; font-size: 13px; }
-
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 12px;
-  margin: 20px 0;
+nav button{background:#211b3b}
+nav button.active{background:#7046d8}
+.panel{
+ background:#151229;border:1px solid #302653;
+ border-radius:16px;padding:16px;margin-bottom:15px;
 }
-
-.stat, .panel {
-  background: #171221;
-  border: 1px solid #38254e;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 16px;
+h2{font-size:19px;margin-top:0}
+h3{font-size:16px}
+input,textarea,select{
+ width:100%;padding:13px;margin:7px 0 12px;
+ border:1px solid #393052;border-radius:10px;
+ background:#0d0b1d;color:white;font-size:15px;
 }
-
-.stat strong {
-  display: block;
-  font-size: 25px;
-  color: #c58aff;
-  margin-top: 8px;
+textarea{min-height:90px;resize:vertical}
+.small{color:#aaa;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#211b3b;padding:15px;border-radius:12px}
+.stat strong{display:block;font-size:25px;color:#a78bfa}
+.task,.item{
+ background:#211b3b;border-radius:10px;
+ padding:12px;margin:9px 0;
+ overflow-wrap:anywhere;
 }
-
-input {
-  width: 100%;
-  padding: 14px;
-  background: #0d0a15;
-  border: 1px solid #60417e;
-  border-radius: 10px;
-  color: white;
-  font-size: 15px;
-  margin: 6px 0;
+.task.done{opacity:.5;text-decoration:line-through}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.secondary{background:#38304f}
+.danger{background:#9f3157}
+.success{background:#176c58}
+.hidden{display:none}
+#answer{white-space:pre-wrap;line-height:1.5}
+#chatHistory{
+ max-height:300px;overflow:auto;margin:12px 0;
 }
-
-button {
-  padding: 13px;
-  border: 0;
-  border-radius: 10px;
-  background: #8b43d7;
-  color: white;
-  font-size: 14px;
-  margin-top: 8px;
-  cursor: pointer;
-}
-
-button:disabled { opacity: .5; }
-.full { width: 100%; }
-.secondary { background: #302440; }
-.danger { background: #702e43; }
-
-#answer {
-  color: #dfc6ff;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  margin-top: 15px;
-}
-
-.task {
-  padding: 12px 0;
-  border-bottom: 1px solid #302440;
-}
-
-.task small {
-  display: block;
-  color: #aaa;
-  margin-top: 5px;
-}
-
-.task.done span {
-  text-decoration: line-through;
-  color: #888;
-}
-
-.task button {
-  padding: 7px 10px;
-  margin-right: 5px;
-}
-
-.memory-item {
-  color: #d6b9ff;
-  padding: 8px 0;
-  border-bottom: 1px solid #302440;
-  font-size: 13px;
-}
+.message{padding:10px;border-radius:10px;margin:8px 0;white-space:pre-wrap}
+.user{background:#33245c}
+.nova{background:#20243b}
+footer{text-align:center;color:#777;font-size:12px;padding:20px}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">N</div>
-  <div>
-    <h1>NOVA</h1>
-    <p>Assistant personnel intelligent</p>
-  </div>
-  <span class="status">● EN LIGNE</span>
+ <h1>✦ NOVA</h1>
+ <p>Ton assistant personnel intelligent</p>
 </header>
 
-<section class="welcome">
-  <div class="star">✦</div>
-  <h2>Bonjour ! Je suis NOVA.</h2>
-  <p class="muted">Ton assistante personnelle intelligente.</p>
+<nav>
+ <button class="active" onclick="showPage('home',this)">🏠 Accueil</button>
+ <button onclick="showPage('tasks',this)">📋 Tâches</button>
+ <button onclick="showPage('reminders',this)">⏰ Rappels</button>
+ <button onclick="showPage('messages',this)">💬 Messages</button>
+ <button onclick="showPage('social',this)">📱 Réseaux</button>
+ <button onclick="showPage('chat',this)">🧠 Assistant NOVA</button>
+</nav>
+
+<!-- ACCUEIL -->
+<section id="home" class="page">
+ <div class="panel">
+  <h2>Bonjour ! 👋</h2>
+  <p>Je suis NOVA. Je suis là pour t'aider à organiser ta journée.</p>
+  <div class="stats">
+   <div class="stat"><strong id="taskCount">0</strong>Tâches à faire</div>
+   <div class="stat"><strong id="doneCount">0</strong>Tâches terminées</div>
+   <div class="stat"><strong id="reminderCount">0</strong>Rappels actifs</div>
+   <div class="stat"><strong id="messageCount">0</strong>Messages programmés</div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <h2>📅 Mon programme</h2>
+  <div id="todayAgenda">Aucune activité prévue aujourd'hui.</div>
+ </div>
+
+ <div class="panel">
+  <h2>⚡ Accès rapide</h2>
+  <div class="actions">
+   <button onclick="showPage('tasks')">Ajouter une tâche</button>
+   <button onclick="showPage('reminders')">Créer un rappel</button>
+   <button onclick="showPage('messages')">Préparer un message</button>
+  </div>
+ </div>
 </section>
 
-<h3>Mon tableau de bord</h3>
-
-<div class="dashboard">
-  <div class="stat">
-    Tâches en cours
-    <strong id="taskCount">0</strong>
-  </div>
-  <div class="stat">
-    Rappels à venir
-    <strong id="reminderCount">0</strong>
-  </div>
-</div>
-
-<section class="panel">
-  <h3>💬 Parler avec NOVA</h3>
-
-  <div id="answer">
-    Je suis là. Que puis-je faire pour toi ?
-  </div>
-
-  <input id="question" placeholder="Écris ton message à NOVA...">
-
-  <button class="full" id="sendButton" onclick="respond()">
-    Envoyer à NOVA ➜
-  </button>
-
-  <button class="full secondary" onclick="startVoice()">
-    🎤 Parler à NOVA
-  </button>
-
-  <button class="full secondary" id="voiceButton" onclick="toggleVoice()">
-    🔊 Voix NOVA : Activée
-  </button>
-
-  <p class="muted" id="voiceStatus"></p>
-</section>
-
-<section class="panel">
-  <h3>📋 Mes tâches et rappels</h3>
-
+<!-- TÂCHES -->
+<section id="tasks" class="page hidden">
+ <div class="panel">
+  <h2>📋 Gestion des tâches</h2>
   <input id="taskTitle" placeholder="Nom de la tâche">
-
-  <label class="muted">Date et heure du rappel (facultatif)</label>
+  <select id="taskPriority">
+   <option value="Normale">Priorité normale</option>
+   <option value="Importante">Importante</option>
+   <option value="Urgente">Urgente</option>
+  </select>
   <input id="taskDate" type="datetime-local">
-
-  <button class="full" onclick="addTask()">
-    + Ajouter une tâche
-  </button>
-
+  <button onclick="addTask()">+ Ajouter la tâche</button>
+ </div>
+ <div class="panel">
+  <h2>Mes tâches</h2>
   <div id="taskList"></div>
+ </div>
 </section>
 
-<section class="panel">
-  <h3>🧠 Ma mémoire personnelle</h3>
-  <p class="muted">
-    Dis à NOVA : « Retiens que... » pour enregistrer une information.
-  </p>
-
-  <div id="memoryList"></div>
-
-  <button class="full secondary" onclick="clearMemory()">
-    Effacer toute ma mémoire personnelle
-  </button>
+<!-- RAPPELS -->
+<section id="reminders" class="page hidden">
+ <div class="panel">
+  <h2>⏰ Mes rappels</h2>
+  <input id="reminderTitle" placeholder="Que dois-je te rappeler ?">
+  <input id="reminderDate" type="datetime-local">
+  <button onclick="addReminder()">Créer le rappel</button>
+  <p class="small">Les alertes fonctionnent lorsque NOVA est ouvert dans ton navigateur.</p>
+ </div>
+ <div class="panel">
+  <h2>Liste des rappels</h2>
+  <div id="reminderList"></div>
+ </div>
 </section>
+
+<!-- MESSAGES -->
+<section id="messages" class="page hidden">
+ <div class="panel">
+  <h2>💬 Messages programmés</h2>
+  <input id="messageContact" placeholder="Nom du destinataire (facultatif)">
+  <textarea id="messageText" placeholder="Écris ton message..."></textarea>
+  <input id="messageDate" type="datetime-local">
+  <button onclick="addMessage()">Enregistrer le message</button>
+  <p class="small">NOVA conservera le message et te préviendra à l'heure prévue. L'envoi restera à confirmer dans WhatsApp.</p>
+ </div>
+ <div class="panel">
+  <h2>Messages enregistrés</h2>
+  <div id="messageList"></div>
+ </div>
+</section>
+
+<!-- RESEAUX -->
+<section id="social" class="page hidden">
+ <div class="panel">
+  <h2>📱 Espace réseaux sociaux</h2>
+  <select id="socialPlatform">
+   <option>WhatsApp - Statut</option>
+   <option>Facebook</option>
+   <option>Instagram</option>
+   <option>Snapchat</option>
+   <option>TikTok</option>
+  </select>
+  <textarea id="socialText" placeholder="Prépare ton statut ou ta publication..."></textarea>
+  <input id="socialDate" type="datetime-local">
+  <button onclick="addSocial()">Enregistrer la publication</button>
+  <p class="small">Tu pourras copier ton texte et ouvrir la plateforme pour publier. La publication automatique n'est pas encore connectée.</p>
+ </div>
+ <div class="panel">
+  <h2>Mes publications</h2>
+  <div id="socialList"></div>
+ </div>
+</section>
+
+<!-- CHAT -->
+<section id="chat" class="page hidden">
+ <div class="panel">
+  <h2>🧠 Parler avec NOVA</h2>
+  <div id="chatHistory"></div>
+  <textarea id="question" placeholder="Écris ton message à NOVA..."></textarea>
+  <div class="actions">
+   <button onclick="respond()">Envoyer</button>
+   <button class="secondary" onclick="startVoice()">🎙️ Parler</button>
+  </div>
+  <p class="small" id="voiceStatus">Commande vocale disponible selon ton navigateur.</p>
+ </div>
+</section>
+
+<footer>NOVA Assistant · Version évoluée</footer>
 
 <script>
+const getData = (key, fallback=[]) => {
+ try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+ catch(e) { return fallback; }
+};
 
-// CHARGEMENT DES DONNÉES
+let tasks = getData("nova_tasks");
+let reminders = getData("nova_reminders");
+let messages = getData("nova_messages");
+let socials = getData("nova_socials");
+let history = getData("nova_memory");
+let personalMemory = getData("nova_personal_memory");
 
-function loadData(key, fallback) {
-  try {
-    const value = JSON.parse(localStorage.getItem(key) || "null");
-    return value === null ? fallback : value;
-  } catch {
-    return fallback;
+function saveAll(){
+ localStorage.setItem("nova_tasks",JSON.stringify(tasks));
+ localStorage.setItem("nova_reminders",JSON.stringify(reminders));
+ localStorage.setItem("nova_messages",JSON.stringify(messages));
+ localStorage.setItem("nova_socials",JSON.stringify(socials));
+ localStorage.setItem("nova_memory",JSON.stringify(history));
+ localStorage.setItem("nova_personal_memory",JSON.stringify(personalMemory));
+ updateDashboard();
+}
+
+function showPage(id,button){
+ document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ if(button) button.classList.add("active");
+ renderAll();
+}
+
+function addTask(){
+ const title=document.getElementById("taskTitle").value.trim();
+ if(!title)return alert("Écris le nom de ta tâche.");
+ tasks.push({
+  id:Date.now(),title,
+  priority:document.getElementById("taskPriority").value,
+  date:document.getElementById("taskDate").value,
+  done:false
+ });
+ document.getElementById("taskTitle").value="";
+ document.getElementById("taskDate").value="";
+ saveAll();renderAll();
+}
+
+function toggleTask(id){
+ const t=tasks.find(x=>x.id===id);
+ if(t)t.done=!t.done;
+ saveAll();renderAll();
+}
+
+function deleteTask(id){
+ tasks=tasks.filter(x=>x.id!==id);
+ saveAll();renderAll();
+}
+
+function addReminder(){
+ const title=document.getElementById("reminderTitle").value.trim();
+ const date=document.getElementById("reminderDate").value;
+ if(!title||!date)return alert("Complète le rappel et sa date.");
+ if(new Date(date)<=new Date())return alert("Choisis une date dans le futur.");
+ reminders.push({id:Date.now(),title,date,notified:false});
+ document.getElementById("reminderTitle").value="";
+ document.getElementById("reminderDate").value="";
+ saveAll();renderAll();
+}
+
+function deleteReminder(id){
+ reminders=reminders.filter(x=>x.id!==id);
+ saveAll();renderAll();
+}
+
+function addMessage(){
+ const text=document.getElementById("messageText").value.trim();
+ const date=document.getElementById("messageDate").value;
+ if(!text||!date)return alert("Écris le message et choisis une date.");
+ if(new Date(date)<=new Date())return alert("Choisis une date dans le futur.");
+ messages.push({
+  id:Date.now(),contact:document.getElementById("messageContact").value,
+  text,date,notified:false
+ });
+ document.getElementById("messageText").value="";
+ document.getElementById("messageContact").value="";
+ document.getElementById("messageDate").value="";
+ saveAll();renderAll();
+}
+
+function deleteMessage(id){
+ messages=messages.filter(x=>x.id!==id);
+ saveAll();renderAll();
+}
+
+function openWhatsApp(text){
+ window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
+}
+
+function addSocial(){
+ const text=document.getElementById("socialText").value.trim();
+ const platform=document.getElementById("socialPlatform").value;
+ const date=document.getElementById("socialDate").value;
+ if(!text)return alert("Écris ta publication.");
+ if(date && new Date(date)<=new Date())return alert("Choisis une date dans le futur.");
+ socials.push({id:Date.now(),text,platform,date,notified:false});
+ document.getElementById("socialText").value="";
+ document.getElementById("socialDate").value="";
+ saveAll();renderAll();
+}
+
+function deleteSocial(id){
+ socials=socials.filter(x=>x.id!==id);
+ saveAll();renderAll();
+}
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+function formatDate(date){
+ return date ? new Date(date).toLocaleString("fr-FR") : "Sans date";
+}
+
+function renderAll(){
+ document.getElementById("taskList").innerHTML=tasks.map(t=>`
+  <div class="task ${t.done?'done':''}">
+   <strong>${escapeHTML(t.title)}</strong>
+   <p class="small">Priorité : ${escapeHTML(t.priority)} · ${formatDate(t.date)}</p>
+   <div class="actions">
+    <button class="success" onclick="toggleTask(${t.id})">${t.done?'Réactiver':'Terminer'}</button>
+    <button class="danger" onclick="deleteTask(${t.id})">Supprimer</button>
+   </div>
+  </div>`).join("") || "Aucune tâche pour le moment.";
+
+ document.getElementById("reminderList").innerHTML=reminders.map(r=>`
+  <div class="item">
+   <strong>${escapeHTML(r.title)}</strong>
+   <p class="small">${formatDate(r.date)}</p>
+   <button class="danger" onclick="deleteReminder(${r.id})">Supprimer</button>
+  </div>`).join("") || "Aucun rappel.";
+
+ document.getElementById("messageList").innerHTML=messages.map(m=>`
+  <div class="item">
+   <strong>${escapeHTML(m.contact||"Message")}</strong>
+   <p>${escapeHTML(m.text)}</p>
+   <p class="small">${formatDate(m.date)}</p>
+   <div class="actions">
+    <button onclick="openWhatsApp(${JSON.stringify(m.text).replace(/</g,'\\u003c')})">Ouvrir WhatsApp</button>
+    <button class="danger" onclick="deleteMessage(${m.id})">Supprimer</button>
+   </div>
+  </div>`).join("") || "Aucun message programmé.";
+
+ document.getElementById("socialList").innerHTML=socials.map(s=>`
+  <div class="item">
+   <strong>${escapeHTML(s.platform)}</strong>
+   <p>${escapeHTML(s.text)}</p>
+   <p class="small">${formatDate(s.date)}</p>
+   <div class="actions">
+    <button onclick="copyText(${JSON.stringify(s.text).replace(/</g,'\\u003c')})">Copier</button>
+    <button class="danger" onclick="deleteSocial(${s.id})">Supprimer</button>
+   </div>
+  </div>`).join("") || "Aucune publication enregistrée.";
+
+ const today=new Date().toDateString();
+ const agenda=[
+  ...tasks.filter(t=>!t.done&&t.date&&new Date(t.date).toDateString()===today).map(t=>"📋 "+t.title),
+  ...reminders.filter(r=>new Date(r.date).toDateString()===today).map(r=>"⏰ "+r.title),
+  ...messages.filter(m=>new Date(m.date).toDateString()===today).map(m=>"💬 Message : "+(m.contact||m.text))
+ ];
+ document.getElementById("todayAgenda").innerHTML=agenda.length?
+  agenda.map(x=>"<p>"+escapeHTML(x)+"</p>").join(""):"Aucune activité prévue aujourd'hui.";
+
+ updateDashboard();
+}
+
+function updateDashboard(){
+ document.getElementById("taskCount").textContent=tasks.filter(t=>!t.done).length;
+ document.getElementById("doneCount").textContent=tasks.filter(t=>t.done).length;
+ document.getElementById("reminderCount").textContent=reminders.length;
+ document.getElementById("messageCount").textContent=messages.length;
+}
+
+async function copyText(text){
+ try{
+  await navigator.clipboard.writeText(text);
+  alert("Texte copié !");
+ }catch(e){
+  prompt("Copie ton texte :",text);
+ }
+}
+
+function checkAlerts(){
+ const now=Date.now();
+ [...reminders,...messages,...socials].forEach(item=>{
+  if(item.date&&!item.notified&&new Date(item.date).getTime()<=now){
+   item.notified=true;
+   alert("NOVA : "+(item.title||item.contact||item.platform||"C'est l'heure de ton activité !"));
   }
+ });
+ saveAll();
 }
 
-let conversation = loadData("nova_memory", []);
-let novaMemory = loadData("nova_personal_memory", []);
-let tasks = loadData("nova_tasks", []);
-
-let voiceEnabled = true;
-
-function saveData() {
-  localStorage.setItem("nova_memory", JSON.stringify(conversation));
-  localStorage.setItem("nova_personal_memory", JSON.stringify(novaMemory));
-  localStorage.setItem("nova_tasks", JSON.stringify(tasks));
-}
-
-// VOIX DE NOVA
-
-function speak(text) {
-  if (!voiceEnabled || !("speechSynthesis" in window)) return;
-
-  window.speechSynthesis.cancel();
-
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "fr-FR";
-  speech.rate = 0.95;
-  speech.pitch = 1;
-  speech.volume = 1;
-
-  const voices = window.speechSynthesis.getVoices();
-  const frenchVoice = voices.find(v => v.lang.startsWith("fr"));
-
-  if (frenchVoice) {
-    speech.voice = frenchVoice;
-  }
-
-  window.speechSynthesis.speak(speech);
-}
-
-function toggleVoice() {
-  voiceEnabled = !voiceEnabled;
-
-  if (!voiceEnabled && "speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-  }
-
-  document.getElementById("voiceButton").textContent =
-    voiceEnabled ? "🔊 Voix NOVA : Activée" : "🔇 Voix NOVA : Désactivée";
-}
-
-// MÉMOIRE PERSONNELLE
-
-function remember(text) {
-  if (!text.trim()) return;
-
-  novaMemory.push(text.trim());
-  novaMemory = [...new Set(novaMemory)].slice(-100);
-
-  saveData();
-  renderMemory();
-}
-
-function clearMemory() {
-  if (!confirm("Effacer toute la mémoire personnelle de NOVA ?")) return;
-
-  novaMemory = [];
-  saveData();
-  renderMemory();
-}
-
-function renderMemory() {
-  const area = document.getElementById("memoryList");
-  area.innerHTML = "";
-
-  if (!novaMemory.length) {
-    area.textContent = "Aucune information enregistrée.";
-    return;
-  }
-
-  novaMemory.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "memory-item";
-    div.textContent = "• " + item;
-    area.appendChild(div);
+async function respond(){
+ const input=document.getElementById("question");
+ const question=input.value.trim();
+ if(!question)return;
+ input.value="";
+ addChat("user",question);
+ const box=document.getElementById("chatHistory");
+ const loading=addChat("nova","NOVA réfléchit...");
+ try{
+  const response=await fetch("/api/chat",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({
+    message:question,
+    history:history.slice(-20),
+    memory:personalMemory
+   })
   });
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||"Erreur serveur");
+  loading.textContent=data.reply;
+  history.push({role:"user",content:question});
+  history.push({role:"assistant",content:data.reply});
+  history=history.slice(-40);
+  saveAll();
+ }catch(error){
+  loading.textContent="Je rencontre un problème de connexion. Réessaie.";
+ }
+ box.scrollTop=box.scrollHeight;
 }
 
-// DISCUSSION AVEC NOVA
-
-async function respond() {
-  const input = document.getElementById("question");
-  const answer = document.getElementById("answer");
-  const button = document.getElementById("sendButton");
-
-  const q = input.value.trim();
-
-  if (!q) {
-    answer.textContent = "Écris-moi quelque chose !";
-    return;
-  }
-
-  const match = q.match(
-    /^(?:retiens que|souviens-toi que|mémorise que)\s+(.+)$/i
-  );
-
-  if (match) {
-    remember(match[1]);
-  }
-
-  answer.textContent = "NOVA réfléchit...";
-  button.disabled = true;
-
-  try {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: q,
-        history: conversation.slice(-20),
-        memory: novaMemory
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Erreur serveur");
-    }
-
-    if (!data.reply) {
-      throw new Error("Réponse vide");
-    }
-
-    answer.textContent = data.reply;
-
-    // NOVA PARLE À HAUTE VOIX
-    speak(data.reply);
-
-    conversation.push(
-      { role: "user", content: q },
-      { role: "assistant", content: data.reply }
-    );
-
-    conversation = conversation.slice(-40);
-    saveData();
-
-    input.value = "";
-
-  } catch (error) {
-    console.error(error);
-    answer.textContent = "NOVA rencontre un problème. Réessaie.";
-  } finally {
-    button.disabled = false;
-  }
+function addChat(type,text){
+ const box=document.getElementById("chatHistory");
+ const div=document.createElement("div");
+ div.className="message "+(type==="user"?"user":"nova");
+ div.textContent=(type==="user"?"Toi : ":"NOVA : ")+text;
+ box.appendChild(div);
+ return div;
 }
 
-// COMMANDE VOCALE
-
-function startVoice() {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    document.getElementById("voiceStatus").textContent =
-      "La commande vocale n'est pas disponible dans ce navigateur.";
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = "fr-FR";
-  recognition.interimResults = false;
-
-  recognition.onstart = () => {
-    document.getElementById("voiceStatus").textContent =
-      "Je t'écoute...";
-  };
-
-  recognition.onresult = event => {
-    document.getElementById("question").value =
-      event.results[0][0].transcript;
-
-    document.getElementById("voiceStatus").textContent =
-      "Message reconnu. NOVA répond...";
-
-    respond();
-  };
-
-  recognition.onerror = () => {
-    document.getElementById("voiceStatus").textContent =
-      "Impossible de reconnaître ta voix.";
-  };
-
-  recognition.start();
+function startVoice(){
+ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SpeechRecognition){
+  document.getElementById("voiceStatus").textContent="La commande vocale n'est pas disponible ici.";
+  return;
+ }
+ const recognition=new SpeechRecognition();
+ recognition.lang="fr-FR";
+ recognition.onresult=e=>{
+  document.getElementById("question").value=e.results[0][0].transcript;
+  respond();
+ };
+ recognition.onerror=()=>{
+  document.getElementById("voiceStatus").textContent="Je n'ai pas réussi à entendre. Réessaie.";
+ };
+ document.getElementById("voiceStatus").textContent="Je t'écoute...";
+ recognition.start();
 }
 
-// GESTION DES TÂCHES
-
-function addTask() {
-  const title = document.getElementById("taskTitle").value.trim();
-  const date = document.getElementById("taskDate").value;
-
-  if (!title) {
-    alert("Écris le nom de ta tâche.");
-    return;
-  }
-
-  tasks.push({
-    id: Date.now(),
-    title,
-    date,
-    done: false,
-    notified: false
-  });
-
-  saveData();
-  renderTasks();
-
-  document.getElementById("taskTitle").value = "";
-  document.getElementById("taskDate").value = "";
+function checkMemoryCommand(question){
+ const match=question.match(/^retiens que\s+(.+)/i);
+ if(match){
+  personalMemory.push(match[1]);
+  saveAll();
+  return true;
+ }
+ return false;
 }
 
-function completeTask(id) {
-  tasks = tasks.map(task =>
-    task.id === id ? { ...task, done: !task.done } : task
-  );
-
-  saveData();
-  renderTasks();
-}
-
-function deleteTask(id) {
-  tasks = tasks.filter(task => task.id !== id);
-  saveData();
-  renderTasks();
-}
-
-function renderTasks() {
-  const area = document.getElementById("taskList");
-  area.innerHTML = "";
-
-  tasks.forEach(task => {
-    const div = document.createElement("div");
-    div.className = "task" + (task.done ? " done" : "");
-
-    const title = document.createElement("span");
-    title.textContent = task.title;
-    div.appendChild(title);
-
-    if (task.date) {
-      const date = document.createElement("small");
-      date.textContent = new Date(task.date).toLocaleString("fr-FR");
-      div.appendChild(date);
-    }
-
-    const done = document.createElement("button");
-    done.textContent = task.done ? "Réactiver" : "Terminer";
-    done.onclick = () => completeTask(task.id);
-    div.appendChild(done);
-
-    const remove = document.createElement("button");
-    remove.textContent = "Supprimer";
-    remove.className = "danger";
-    remove.onclick = () => deleteTask(task.id);
-    div.appendChild(remove);
-
-    area.appendChild(div);
-  });
-
-  document.getElementById("taskCount").textContent =
-    tasks.filter(t => !t.done).length;
-
-  document.getElementById("reminderCount").textContent =
-    tasks.filter(t => !t.done && t.date).length;
-}
-
-// RAPPELS
-
-function checkReminders() {
-  const now = Date.now();
-  let changed = false;
-
-  tasks.forEach(task => {
-    if (
-      task.date &&
-      !task.done &&
-      !task.notified &&
-      new Date(task.date).getTime() <= now
-    ) {
-      alert("Rappel NOVA : " + task.title);
-      task.notified = true;
-      changed = true;
-    }
-  });
-
-  if (changed) {
-    saveData();
-    renderTasks();
-  }
-}
-
-// TOUCHE ENTRÉE
-
-document.getElementById("question").addEventListener("keydown", event => {
-  if (event.key === "Enter") respond();
+document.getElementById("question").addEventListener("keydown",e=>{
+ if(e.key==="Enter"&&!e.shiftKey){
+  e.preventDefault();respond();
+ }
 });
 
-// INITIALISATION
-
-renderMemory();
-renderTasks();
-checkReminders();
-setInterval(checkReminders, 30000);
-
+renderAll();
+history.forEach(item=>addChat(item.role==="user"?"user":"nova",item.content));
+setInterval(checkAlerts,15000);
 </script>
 </body>
 </html>
