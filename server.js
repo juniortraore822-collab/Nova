@@ -10,9 +10,12 @@ app.post("/api/chat", async (req, res) => {
   try {
     const message = req.body.message;
 
-    // Récupérer les anciennes conversations
     const history = Array.isArray(req.body.history)
       ? req.body.history
+      : [];
+
+    const memory = Array.isArray(req.body.memory)
+      ? req.body.memory
       : [];
 
     if (!message) {
@@ -21,10 +24,9 @@ app.post("/api/chat", async (req, res) => {
       });
     }
 
-    // Vérifier et limiter l'historique
     const safeHistory = history
       .filter(item =>
-        (item.role === "user" || item.role === "assistant") &&
+        ["user", "assistant"].includes(item.role) &&
         typeof item.content === "string"
       )
       .slice(-20)
@@ -32,6 +34,36 @@ app.post("/api/chat", async (req, res) => {
         role: item.role,
         content: item.content.slice(0, 4000)
       }));
+
+    const safeMemory = memory
+      .filter(item => typeof item === "string")
+      .slice(-100)
+      .map(item => item.slice(0, 1000));
+
+    const systemPrompt = `
+Tu es NOVA, un assistant personnel intelligent.
+
+PERSONNALITÉ :
+- Tu es naturelle, chaleureuse, intelligente et respectueuse.
+- Tu parles en français, sauf demande contraire.
+- Tu évites les réponses robotiques.
+- Tu adaptes ton ton à la personne.
+- Tu es claire, utile et directe.
+- Tu ne prétends jamais avoir effectué une action que tu n'as pas faite.
+
+MÉMOIRE PERSONNELLE :
+Voici les informations importantes que l'utilisateur t'a demandé de retenir :
+${safeMemory.length ? safeMemory.map(x => "- " + x).join("\n") : "Aucune information enregistrée."}
+
+Utilise ces informations lorsqu'elles sont utiles.
+Ne les invente jamais.
+Si l'utilisateur te demande de retenir une nouvelle information, encourage-le à utiliser la commande « Retiens que... ».
+
+TÂCHES :
+Tu peux aider à organiser les tâches, les priorités et les rappels.
+Mais tu ne peux pas créer directement une tâche dans le tableau de bord.
+Pour cela, l'utilisateur doit utiliser la section des tâches de l'application.
+`;
 
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -44,15 +76,9 @@ app.post("/api/chat", async (req, res) => {
         body: JSON.stringify({
           model: "openai/gpt-oss-20b",
           messages: [
-            {
-              role: "system",
-              content: "Tu es NOVA, un assistant personnel intelligent. Tu réponds toujours en français, clairement, naturellement et utilement. Tu utilises les anciennes conversations fournies pour garder le contexte et te souvenir des informations importantes."
-            },
+            { role: "system", content: systemPrompt },
             ...safeHistory,
-            {
-              role: "user",
-              content: message
-            }
+            { role: "user", content: message }
           ],
           temperature: 0.7
         })
@@ -63,6 +89,7 @@ app.post("/api/chat", async (req, res) => {
 
     if (!response.ok) {
       console.error("ERREUR GROQ :", data);
+
       return res.status(500).json({
         error: "Le service NOVA rencontre un problème."
       });
