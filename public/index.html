@@ -4,26 +4,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b18">
-<title>ALFRED — Assistant personnel</title>
+<meta name="theme-color" content="#080817">
+<title>ALFRED — Personal Intelligence</title>
 
 <style>
 :root {
-  --bg:#080b18;
-  --panel:#11172a;
-  --panel2:#171f36;
-  --blue:#4c8dff;
-  --purple:#9565ff;
-  --text:#f4f6ff;
-  --muted:#9ca8c5;
-  --border:rgba(255,255,255,.09);
-  --danger:#ff647c;
+  --bg:#080817;
+  --panel:#11152b;
+  --panel2:#191d3b;
+  --blue:#398cff;
+  --purple:#914cff;
+  --text:#f5f3ff;
+  --muted:#a8a8c9;
+  --border:rgba(151,111,255,.22);
   --green:#48d6a0;
+  --red:#ff647c;
 }
 *{box-sizing:border-box}
 body{
   margin:0;
-  background:radial-gradient(circle at top right,#182449 0%,var(--bg) 48%);
+  background:radial-gradient(ellipse at top,#17143c 0%,#080817 65%);
   color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   min-height:100vh;
@@ -31,128 +31,231 @@ body{
 button,input,textarea{font:inherit}
 button{cursor:pointer}
 header{
-  padding:22px 18px 16px;
+  padding:17px 18px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   border-bottom:1px solid var(--border);
   position:sticky;
   top:0;
-  z-index:5;
-  background:rgba(8,11,24,.94);
-  backdrop-filter:blur(16px);
+  z-index:10;
+  background:rgba(8,8,23,.94);
+  backdrop-filter:blur(18px);
 }
-.brand{display:flex;align-items:center;gap:11px}
+.brand{display:flex;align-items:center;gap:12px}
 .logo{
-  width:42px;height:42px;border-radius:14px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  font-size:22px;font-weight:800;
-  box-shadow:0 0 25px #625aff55;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  overflow:hidden;
+  border:1px solid #8058ff;
+  box-shadow:0 0 20px #7655ff88;
+  flex-shrink:0;
 }
-.brand h1{font-size:20px;margin:0;letter-spacing:2px}
-.brand p{font-size:10px;color:var(--muted);margin:3px 0 0}
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.brand h1{
+  font-size:20px;
+  margin:0;
+  letter-spacing:3px;
+}
+.brand p{
+  font-size:9px;
+  color:var(--muted);
+  margin:4px 0 0;
+  letter-spacing:1.5px;
+}
 .status{font-size:11px;color:var(--green)}
-main{max-width:850px;margin:auto;padding:18px 15px 110px}
+main{max-width:900px;margin:auto;padding:16px 14px 100px}
 .panel{
-  background:linear-gradient(145deg,#151d34,#101629);
+  background:linear-gradient(145deg,#171a37,#101329);
   border:1px solid var(--border);
   border-radius:20px;
   padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 12px 35px #0002;
+  margin-bottom:15px;
+  box-shadow:0 10px 35px #0003;
 }
 .hero{
   text-align:center;
-  padding:28px 18px;
-  background:radial-gradient(circle at top,#253b70,#11172a 70%);
+  padding:25px 17px;
+  background:radial-gradient(circle at top,#29205d,#111329 70%);
+  border-color:#7650ff88;
 }
 .orb{
-  width:85px;height:85px;border-radius:50%;
-  margin:0 auto 17px;
-  background:linear-gradient(135deg,#4c8dff,#9565ff);
-  display:grid;place-items:center;
-  font-size:35px;
-  box-shadow:0 0 35px #6e75ff66;
+  width:112px;
+  height:112px;
+  border-radius:50%;
+  margin:0 auto 14px;
+  overflow:hidden;
+  border:2px solid #855bff;
+  box-shadow:0 0 30px #7850ff88;
 }
-.hero h2{font-size:24px;margin:8px 0}
-.hero p{color:var(--muted);line-height:1.6;font-size:14px}
+.orb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.hero h2{
+  font-size:25px;
+  margin:10px 0;
+  background:linear-gradient(90deg,#fff,#bba1ff);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.hero p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:14px;
+}
 h2,h3{margin-top:0}
 h3{font-size:16px}
 .muted{color:var(--muted);font-size:13px;line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.stat{padding:15px;border-radius:16px;background:var(--panel2);border:1px solid var(--border)}
-.stat strong{display:block;font-size:25px;margin-top:7px}
-.stat span{font-size:12px;color:var(--muted)}
 nav{
-  display:flex;gap:8px;overflow-x:auto;
-  padding:10px 0 17px;scrollbar-width:none;
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:10px 0 17px;
+  scrollbar-width:none;
 }
 nav button{
-  flex-shrink:0;border:1px solid var(--border);
-  background:var(--panel);color:var(--muted);
-  padding:10px 14px;border-radius:13px;
+  flex-shrink:0;
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--muted);
+  padding:11px 14px;
+  border-radius:13px;
 }
 nav button.active{
-  color:white;border-color:#648cff;
-  background:linear-gradient(120deg,#315eb0,#6746a9);
+  color:white;
+  border-color:#805cff;
+  background:linear-gradient(120deg,#5832c9,#3549a9);
+  box-shadow:0 0 15px #7655ff44;
 }
 .page{display:none}
 .page.active{display:block}
-input,textarea{
-  width:100%;background:#0b1122;color:white;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.stat{
+  padding:15px;
+  border-radius:15px;
+  background:var(--panel2);
   border:1px solid var(--border);
-  border-radius:13px;padding:13px;
-  outline:none;margin:7px 0;
+}
+.stat strong{
+  display:block;
+  font-size:25px;
+  margin-top:7px;
+}
+.stat span{font-size:12px;color:var(--muted)}
+input,textarea{
+  width:100%;
+  background:#0b1024;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:13px;
+  outline:none;
+  margin:7px 0;
 }
 input:focus,textarea:focus{border-color:var(--blue)}
-textarea{resize:vertical;min-height:85px}
+textarea{resize:vertical;min-height:90px}
 .btn{
-  border:0;border-radius:13px;padding:12px 16px;
-  color:white;background:linear-gradient(120deg,var(--blue),var(--purple));
+  border:0;
+  border-radius:13px;
+  padding:12px 16px;
+  color:white;
+  background:linear-gradient(120deg,var(--blue),var(--purple));
   font-weight:600;
 }
-.btn.secondary{background:#202b47;border:1px solid var(--border)}
+.btn.secondary{
+  background:#25264c;
+  border:1px solid var(--border);
+}
 .btn.danger{background:#64283a}
 .btn.small{padding:8px 11px;font-size:12px}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .chatbox{
-  height:340px;overflow-y:auto;background:#0b1122;
-  border-radius:15px;border:1px solid var(--border);
-  padding:12px;margin-bottom:10px;
+  height:360px;
+  overflow-y:auto;
+  background:#090d20;
+  border-radius:15px;
+  border:1px solid var(--border);
+  padding:12px;
+  margin-bottom:10px;
 }
 .message{
-  padding:11px 13px;border-radius:14px;margin:9px 0;
-  max-width:90%;line-height:1.5;font-size:14px;
-  white-space:pre-wrap;overflow-wrap:anywhere;
+  padding:11px 13px;
+  border-radius:14px;
+  margin:9px 0;
+  max-width:90%;
+  line-height:1.5;
+  font-size:14px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
-.message.alfred{background:#202b47;border:1px solid #ffffff12}
-.message.user{background:linear-gradient(120deg,#315eb0,#6746a9);margin-left:auto}
+.message.alfred{
+  background:#202448;
+  border:1px solid #ffffff12;
+}
+.message.user{
+  background:linear-gradient(120deg,#315eb0,#6746a9);
+  margin-left:auto;
+}
 .chatrow{display:flex;gap:7px;align-items:center}
 .chatrow input{flex:1;min-width:0}
 .chatrow button{flex-shrink:0}
 .item{
-  display:flex;justify-content:space-between;gap:10px;
-  align-items:center;padding:13px;border-radius:13px;
-  background:#18223b;margin:9px 0;border:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:13px;
+  border-radius:13px;
+  background:#191e3b;
+  margin:9px 0;
+  border:1px solid var(--border);
 }
-.item small{display:block;color:var(--muted);margin-top:5px}
+.item small{
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+}
 .item.done{opacity:.5}
 .item.done .item-title{text-decoration:line-through}
-.empty{color:var(--muted);font-size:13px;text-align:center;padding:20px}
-footer{text-align:center;color:#77839f;font-size:11px;padding:25px}
+.empty{
+  color:var(--muted);
+  font-size:13px;
+  text-align:center;
+  padding:20px;
+}
+footer{
+  text-align:center;
+  color:#8887ad;
+  font-size:11px;
+  padding:25px;
+}
 @media(max-width:430px){
   main{padding-left:12px;padding-right:12px}
   .panel{padding:15px}
-  .hero h2{font-size:21px}
+  .hero h2{font-size:22px}
 }
 </style>
 </head>
 
 <body>
+
 <header>
   <div class="brand">
-    <div class="logo">A</div>
+    <div class="logo">
+      <img src="/alfred-embleme.png" alt="Emblème ALFRED">
+    </div>
     <div>
       <h1>ALFRED</h1>
       <p>PERSONAL INTELLIGENCE</p>
@@ -162,62 +265,102 @@ footer{text-align:center;color:#77839f;font-size:11px;padding:25px}
 </header>
 
 <main>
+
 <nav>
-  <button class="active" data-page="home">Accueil</button>
-  <button data-page="chat">Intelligence</button>
-  <button data-page="tasks">Tâches</button>
-  <button data-page="reminders">Rappels</button>
-  <button data-page="messages">Messages</button>
-  <button data-page="memory">Mémoire</button>
+  <button class="active" data-page="home">⌂ Accueil</button>
+  <button data-page="tasks">✓ Tâches</button>
+  <button data-page="reminders">◷ Rappels</button>
+  <button data-page="messages">✉ Messages</button>
+  <button data-page="memory">◈ Mémoire</button>
+  <button data-page="chat">✦ ALFRED IA</button>
 </nav>
 
 <section id="home" class="page active">
+
   <div class="panel hero">
-    <div class="orb">A</div>
-    <h2>Bonjour Baha.</h2>
+    <div class="orb">
+      <img src="/alfred-embleme.png" alt="Emblème ALFRED">
+    </div>
+
+    <h2>Bonjour Baha. 👋</h2>
+
     <p>
-      Je suis ALFRED, votre assistant personnel.
-      Je suis à votre disposition pour réfléchir, organiser,
-      vous conseiller et vous accompagner.
+      Je suis ALFRED, votre assistant personnel intelligent.
+      Je peux vous aider à réfléchir, organiser vos activités,
+      préparer vos messages et conserver vos informations importantes.
     </p>
-    <button class="btn" onclick="showPage('chat')">Parler à ALFRED</button>
+
+    <button class="btn" onclick="showPage('chat')">
+      Parler avec ALFRED →
+    </button>
   </div>
 
   <div class="grid">
-    <div class="stat"><span>Tâches en cours</span><strong id="taskCount">0</strong></div>
-    <div class="stat"><span>Rappels enregistrés</span><strong id="reminderCount">0</strong></div>
-    <div class="stat"><span>Messages préparés</span><strong id="messageCount">0</strong></div>
-    <div class="stat"><span>Éléments en mémoire</span><strong id="memoryCount">0</strong></div>
+    <div class="stat">
+      <span>Tâches à faire</span>
+      <strong id="taskCount">0</strong>
+    </div>
+    <div class="stat">
+      <span>Tâches terminées</span>
+      <strong id="doneCount">0</strong>
+    </div>
+    <div class="stat">
+      <span>Rappels actifs</span>
+      <strong id="reminderCount">0</strong>
+    </div>
+    <div class="stat">
+      <span>Souvenirs enregistrés</span>
+      <strong id="memoryCount">0</strong>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:15px">
+    <h3>💡 Conseils d'ALFRED</h3>
+    <p class="muted" id="dailyAdvice">
+      Ajoutez quelques tâches pour recevoir des suggestions.
+    </p>
+    <button class="btn secondary" onclick="showPage('tasks')">
+      Organiser ma journée
+    </button>
   </div>
 
   <div class="panel">
-    <h3>Votre assistant</h3>
-    <p class="muted">
-      Une présence discrète, une réflexion structurée et une aide
-      disponible quand vous ouvrez ALFRED.
-    </p>
-    <div class="actions">
-      <button class="btn secondary" onclick="showPage('tasks')">Organiser ma journée</button>
-      <button class="btn secondary" onclick="showPage('reminders')">Voir mes rappels</button>
-    </div>
+    <h3>◷ Mon programme</h3>
+    <div id="homeReminders"></div>
   </div>
+
+  <div class="panel">
+    <h3>🦇 ALFRED — Toujours à vos côtés</h3>
+    <p class="muted">
+      Votre assistant personnel, disponible lorsque vous ouvrez cette application.
+    </p>
+  </div>
+
 </section>
 
 <section id="chat" class="page">
   <div class="panel">
     <h3>✦ Intelligence ALFRED</h3>
-    <p class="muted">Posez-moi une question ou donnez-moi une instruction.</p>
+    <p class="muted">
+      Je suis à votre écoute, Baha. Que souhaitez-vous faire ?
+    </p>
+
     <div id="chatbox" class="chatbox">
-      <div class="message alfred">Bonjour Baha. Je suis ALFRED. Que puis-je faire pour vous ?</div>
+      <div class="message alfred">
+        Bonjour Baha. Je suis ALFRED. Je suis prêt à vous assister.
+      </div>
     </div>
+
     <div class="chatrow">
       <input id="question" placeholder="Écrivez à ALFRED..." autocomplete="off">
       <button class="btn" onclick="sendMessage()">Envoyer</button>
     </div>
+
     <div class="actions">
       <button class="btn secondary" onclick="startVoice()">🎙 Parler</button>
-      <button class="btn secondary" onclick="stopSpeaking()">Arrêter la voix</button>
+      <button class="btn secondary" onclick="stopSpeaking()">■ Arrêter la voix</button>
     </div>
+
     <p id="voiceStatus" class="muted"></p>
   </div>
 </section>
@@ -226,8 +369,11 @@ footer{text-align:center;color:#77839f;font-size:11px;padding:25px}
   <div class="panel">
     <h3>✓ Gestion des tâches</h3>
     <p class="muted">Organisez vos objectifs et vos actions.</p>
+
     <input id="taskInput" placeholder="Nouvelle tâche...">
+
     <button class="btn" onclick="addTask()">Ajouter la tâche</button>
+
     <div id="taskList"></div>
   </div>
 </section>
@@ -235,11 +381,15 @@ footer{text-align:center;color:#77839f;font-size:11px;padding:25px}
 <section id="reminders" class="page">
   <div class="panel">
     <h3>◷ Rappels personnels</h3>
-    <p class="muted">Enregistrez une chose importante à ne pas oublier.</p>
+    <p class="muted">Enregistrez les choses importantes à ne pas oublier.</p>
+
     <input id="reminderInput" placeholder="Que faut-il vous rappeler ?">
+
     <label class="muted">Date et heure</label>
     <input id="reminderDate" type="datetime-local">
+
     <button class="btn" onclick="addReminder()">Enregistrer le rappel</button>
+
     <div id="reminderList"></div>
   </div>
 </section>
@@ -247,10 +397,15 @@ footer{text-align:center;color:#77839f;font-size:11px;padding:25px}
 <section id="messages" class="page">
   <div class="panel">
     <h3>✉ Centre de rédaction</h3>
-    <p class="muted">Préparez vos messages WhatsApp, SMS et publications.</p>
+    <p class="muted">
+      Préparez vos messages WhatsApp, SMS et publications.
+    </p>
+
     <input id="messageTitle" placeholder="Titre ou destinataire">
     <textarea id="messageInput" placeholder="Écrivez votre message..."></textarea>
+
     <button class="btn" onclick="addMessage()">Enregistrer le message</button>
+
     <div id="messageList"></div>
   </div>
 </section>
@@ -258,18 +413,28 @@ footer{text-align:center;color:#77839f;font-size:11px;padding:25px}
 <section id="memory" class="page">
   <div class="panel">
     <h3>◈ Mémoire personnelle</h3>
-    <p class="muted">Conservez des informations utiles pour les retrouver plus tard.</p>
+    <p class="muted">
+      Conservez les informations importantes que vous souhaitez retrouver.
+    </p>
+
     <textarea id="memoryInput" placeholder="Information à conserver..."></textarea>
+
     <button class="btn" onclick="addMemory()">Mémoriser</button>
+
     <div id="memoryList"></div>
   </div>
 </section>
 
-<footer>ALFRED PERSONAL INTELLIGENCE · Votre assistant personnel</footer>
+<footer>
+  ALFRED PERSONAL INTELLIGENCE · Vos données restent dans ce navigateur
+</footer>
+
 </main>
 
 <script>
-/* Conservation des anciennes clés pour préserver les données NOVA. */
+
+/* STOCKAGE : anciennes clés conservées pour préserver les données */
+
 const STORAGE = {
   tasks:"nova_tasks",
   reminders:"nova_reminders",
@@ -281,8 +446,11 @@ function load(key){
   try{
     const value=JSON.parse(localStorage.getItem(key)||"[]");
     return Array.isArray(value)?value:[];
-  }catch{return []}
+  }catch{
+    return [];
+  }
 }
+
 function save(key,data){
   localStorage.setItem(key,JSON.stringify(data));
 }
@@ -292,174 +460,337 @@ let reminders=load(STORAGE.reminders);
 let messages=load(STORAGE.messages);
 let memories=load(STORAGE.memory);
 
+/* NAVIGATION */
+
 function showPage(page){
-  document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));
-  document.querySelectorAll("nav button").forEach(el=>el.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(el=>{
+    el.classList.remove("active");
+  });
+
+  document.querySelectorAll("nav button").forEach(el=>{
+    el.classList.remove("active");
+  });
+
   const target=document.getElementById(page);
   if(target)target.classList.add("active");
+
   const button=document.querySelector('nav button[data-page="'+page+'"]');
   if(button)button.classList.add("active");
+
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
 document.querySelectorAll("nav button").forEach(button=>{
-  button.addEventListener("click",()=>showPage(button.dataset.page));
+  button.addEventListener("click",()=>{
+    showPage(button.dataset.page);
+  });
 });
 
-function updateDashboard(){
-  document.getElementById("taskCount").textContent=tasks.filter(t=>!t.done).length;
-  document.getElementById("reminderCount").textContent=reminders.length;
-  document.getElementById("messageCount").textContent=messages.length;
-  document.getElementById("memoryCount").textContent=memories.length;
-}
+/* SÉCURISATION DES TEXTES AFFICHÉS */
 
 function escapeHTML(value){
   return String(value).replace(/[&<>"']/g,char=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
   })[char]);
 }
 
+/* TABLEAU DE BORD */
+
+function updateDashboard(){
+
+  document.getElementById("taskCount").textContent=
+    tasks.filter(t=>!t.done).length;
+
+  document.getElementById("doneCount").textContent=
+    tasks.filter(t=>t.done).length;
+
+  document.getElementById("reminderCount").textContent=
+    reminders.length;
+
+  document.getElementById("memoryCount").textContent=
+    memories.length;
+
+  const advice=document.getElementById("dailyAdvice");
+
+  if(tasks.length===0){
+    advice.textContent="Ajoutez quelques tâches pour commencer à organiser votre journée.";
+  }else{
+    advice.textContent="Vous avez "+tasks.filter(t=>!t.done).length+
+    " tâche(s) à accomplir. Avançons étape par étape, Baha.";
+  }
+
+  renderHomeReminders();
+}
+
 /* TÂCHES */
+
 function addTask(){
   const input=document.getElementById("taskInput");
   const text=input.value.trim();
+
   if(!text)return;
-  tasks.unshift({id:Date.now(),text,done:false});
+
+  tasks.unshift({
+    id:Date.now(),
+    text:text,
+    done:false
+  });
+
   save(STORAGE.tasks,tasks);
   input.value="";
   renderTasks();
 }
+
 function toggleTask(id){
-  tasks=tasks.map(t=>t.id===id?{...t,done:!t.done}:t);
+  tasks=tasks.map(t=>
+    t.id===id?{...t,done:!t.done}:t
+  );
+
   save(STORAGE.tasks,tasks);
   renderTasks();
 }
+
 function deleteTask(id){
   tasks=tasks.filter(t=>t.id!==id);
   save(STORAGE.tasks,tasks);
   renderTasks();
 }
+
 function renderTasks(){
+
   const list=document.getElementById("taskList");
-  list.innerHTML=tasks.length?tasks.map(t=>`
-    <div class="item ${t.done?"done":""}">
-      <span class="item-title">${escapeHTML(t.text)}</span>
-      <div class="actions">
-        <button class="btn small secondary" onclick="toggleTask(${t.id})">${t.done?"Annuler":"Terminé"}</button>
-        <button class="btn small danger" onclick="deleteTask(${t.id})">✕</button>
+
+  if(!tasks.length){
+    list.innerHTML='<div class="empty">Aucune tâche pour le moment.</div>';
+  }else{
+    list.innerHTML=tasks.map(t=>`
+      <div class="item ${t.done?"done":""}">
+        <span class="item-title">${escapeHTML(t.text)}</span>
+        <div class="actions">
+          <button class="btn small secondary" onclick="toggleTask(${t.id})">
+            ${t.done?"Annuler":"Terminé"}
+          </button>
+          <button class="btn small danger" onclick="deleteTask(${t.id})">✕</button>
+        </div>
       </div>
-    </div>`).join(""):'<div class="empty">Aucune tâche pour le moment.</div>';
+    `).join("");
+  }
+
   updateDashboard();
 }
 
 /* RAPPELS */
+
 function addReminder(){
+
   const input=document.getElementById("reminderInput");
   const date=document.getElementById("reminderDate");
   const text=input.value.trim();
-  if(!text){alert("Écrivez d'abord votre rappel.");return;}
-  reminders.unshift({id:Date.now(),text,date:date.value});
+
+  if(!text){
+    alert("Écrivez d'abord votre rappel.");
+    return;
+  }
+
+  reminders.unshift({
+    id:Date.now(),
+    text:text,
+    date:date.value
+  });
+
   save(STORAGE.reminders,reminders);
+
   input.value="";
   date.value="";
+
   renderReminders();
 }
+
 function deleteReminder(id){
   reminders=reminders.filter(r=>r.id!==id);
   save(STORAGE.reminders,reminders);
   renderReminders();
 }
+
 function renderReminders(){
+
   const list=document.getElementById("reminderList");
-  list.innerHTML=reminders.length?reminders.map(r=>`
-    <div class="item">
-      <div>
-        <span>${escapeHTML(r.text)}</span>
-        <small>${r.date?escapeHTML(new Date(r.date).toLocaleString("fr-FR")):"Sans date définie"}</small>
+
+  if(!reminders.length){
+    list.innerHTML='<div class="empty">Aucun rappel enregistré.</div>';
+  }else{
+    list.innerHTML=reminders.map(r=>`
+      <div class="item">
+        <div>
+          <span>${escapeHTML(r.text)}</span>
+          <small>${r.date?escapeHTML(new Date(r.date).toLocaleString("fr-FR")):"Sans date définie"}</small>
+        </div>
+        <button class="btn small danger" onclick="deleteReminder(${r.id})">✕</button>
       </div>
-      <button class="btn small danger" onclick="deleteReminder(${r.id})">✕</button>
-    </div>`).join(""):'<div class="empty">Aucun rappel enregistré.</div>';
+    `).join("");
+  }
+
   updateDashboard();
 }
 
+function renderHomeReminders(){
+
+  const list=document.getElementById("homeReminders");
+
+  if(!list)return;
+
+  if(!reminders.length){
+    list.innerHTML='<div class="empty">Aucune activité prévue.</div>';
+    return;
+  }
+
+  list.innerHTML=reminders.slice(0,5).map(r=>`
+    <div class="item">
+      <div>
+        <strong>${escapeHTML(r.text)}</strong>
+        <small>${r.date?escapeHTML(new Date(r.date).toLocaleString("fr-FR")):"Date non définie"}</small>
+      </div>
+    </div>
+  `).join("");
+}
+
 /* MESSAGES */
+
 function addMessage(){
+
   const title=document.getElementById("messageTitle").value.trim();
   const content=document.getElementById("messageInput").value.trim();
-  if(!content){alert("Écrivez votre message avant de l'enregistrer.");return;}
-  messages.unshift({id:Date.now(),title:title||"Message sans titre",content});
+
+  if(!content){
+    alert("Écrivez votre message avant de l'enregistrer.");
+    return;
+  }
+
+  messages.unshift({
+    id:Date.now(),
+    title:title||"Message sans titre",
+    content:content
+  });
+
   save(STORAGE.messages,messages);
+
   document.getElementById("messageTitle").value="";
   document.getElementById("messageInput").value="";
+
   renderMessages();
 }
+
 function copyMessage(id){
+
   const message=messages.find(m=>m.id===id);
   if(!message)return;
+
   if(navigator.clipboard&&window.isSecureContext){
+
     navigator.clipboard.writeText(message.content)
-      .then(()=>alert("Message copié."))
-      .catch(()=>alert("Impossible de copier automatiquement."));
+    .then(()=>alert("Message copié."))
+    .catch(()=>alert("Impossible de copier automatiquement."));
+
   }else{
     alert("La copie automatique n'est pas disponible dans ce navigateur.");
   }
 }
+
 function deleteMessage(id){
   messages=messages.filter(m=>m.id!==id);
   save(STORAGE.messages,messages);
   renderMessages();
 }
+
 function renderMessages(){
+
   const list=document.getElementById("messageList");
-  list.innerHTML=messages.length?messages.map(m=>`
-    <div class="item">
-      <div style="flex:1;min-width:0">
-        <strong>${escapeHTML(m.title)}</strong>
-        <small>${escapeHTML(m.content)}</small>
-        <button class="btn small secondary" onclick="copyMessage(${m.id})">Copier</button>
+
+  if(!messages.length){
+    list.innerHTML='<div class="empty">Aucun message préparé.</div>';
+  }else{
+    list.innerHTML=messages.map(m=>`
+      <div class="item">
+        <div style="flex:1;min-width:0">
+          <strong>${escapeHTML(m.title)}</strong>
+          <small>${escapeHTML(m.content)}</small>
+          <button class="btn small secondary" onclick="copyMessage(${m.id})">Copier</button>
+        </div>
+        <button class="btn small danger" onclick="deleteMessage(${m.id})">✕</button>
       </div>
-      <button class="btn small danger" onclick="deleteMessage(${m.id})">✕</button>
-    </div>`).join(""):'<div class="empty">Aucun message préparé.</div>';
+    `).join("");
+  }
+
   updateDashboard();
 }
 
-/* MÉMOIRE */
+/* MÉMOIRE PERSONNELLE */
+
 function addMemory(){
+
   const input=document.getElementById("memoryInput");
   const content=input.value.trim();
+
   if(!content)return;
-  memories.unshift({id:Date.now(),content});
+
+  memories.unshift({
+    id:Date.now(),
+    content:content
+  });
+
   save(STORAGE.memory,memories);
+
   input.value="";
   renderMemory();
 }
+
 function deleteMemory(id){
   memories=memories.filter(m=>m.id!==id);
   save(STORAGE.memory,memories);
   renderMemory();
 }
+
 function renderMemory(){
+
   const list=document.getElementById("memoryList");
-  list.innerHTML=memories.length?memories.map(m=>`
-    <div class="item">
-      <div style="flex:1;min-width:0">${escapeHTML(m.content)}</div>
-      <button class="btn small danger" onclick="deleteMemory(${m.id})">✕</button>
-    </div>`).join(""):'<div class="empty">La mémoire est encore vide.</div>';
+
+  if(!memories.length){
+    list.innerHTML='<div class="empty">La mémoire est encore vide.</div>';
+  }else{
+    list.innerHTML=memories.map(m=>`
+      <div class="item">
+        <div style="flex:1;min-width:0">${escapeHTML(m.content)}</div>
+        <button class="btn small danger" onclick="deleteMemory(${m.id})">✕</button>
+      </div>
+    `).join("");
+  }
+
   updateDashboard();
 }
 
-/* DISCUSSION AVEC LE SERVEUR IA */
+/* INTELLIGENCE ARTIFICIELLE */
+
 function addChatMessage(text,type){
+
   const box=document.getElementById("chatbox");
   const div=document.createElement("div");
+
   div.className="message "+type;
   div.textContent=text;
+
   box.appendChild(div);
   box.scrollTop=box.scrollHeight;
 }
 
 async function sendMessage(){
+
   const input=document.getElementById("question");
   const question=input.value.trim();
+
   if(!question)return;
 
   input.value="";
@@ -468,81 +799,137 @@ async function sendMessage(){
   const loading=document.createElement("div");
   loading.className="message alfred";
   loading.textContent="ALFRED réfléchit...";
+
   document.getElementById("chatbox").appendChild(loading);
 
   try{
+
     const response=await fetch("/api/chat",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({message:question})
     });
-    if(!response.ok)throw new Error("Erreur serveur : "+response.status);
+
+    if(!response.ok){
+      throw new Error("Erreur serveur : "+response.status);
+    }
+
     const data=await response.json();
+
     loading.remove();
+
     const reply=data.reply||"Je n'ai pas reçu de réponse exploitable.";
+
     addChatMessage(reply,"alfred");
     speak(reply);
+
   }catch(error){
+
     loading.remove();
-    addChatMessage("Je rencontre un problème de connexion au serveur. Vérifiez votre connexion et réessayez.","alfred");
+
+    addChatMessage(
+      "Je rencontre un problème de connexion au serveur. Vérifiez votre connexion et réessayez.",
+      "alfred"
+    );
+
     console.error(error);
   }
 }
+
 document.getElementById("question").addEventListener("keydown",event=>{
   if(event.key==="Enter")sendMessage();
 });
 
-/* RECONNAISSANCE VOCALE */
+/* COMMANDE VOCALE */
+
 let recognition=null;
+
 function startVoice(){
-  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+  const SpeechRecognition=
+    window.SpeechRecognition||window.webkitSpeechRecognition;
+
   if(!SpeechRecognition){
-    document.getElementById("voiceStatus").textContent="La reconnaissance vocale n'est pas disponible dans ce navigateur.";
+    document.getElementById("voiceStatus").textContent=
+      "La reconnaissance vocale n'est pas disponible dans ce navigateur.";
     return;
   }
+
   recognition=new SpeechRecognition();
   recognition.lang="fr-FR";
   recognition.interimResults=false;
   recognition.continuous=false;
-  document.getElementById("voiceStatus").textContent="ALFRED vous écoute...";
+
+  document.getElementById("voiceStatus").textContent=
+    "ALFRED vous écoute...";
+
   recognition.onresult=event=>{
+
     const text=event.results[0][0].transcript;
+
     document.getElementById("question").value=text;
-    document.getElementById("voiceStatus").textContent="Commande reconnue : "+text;
+
+    document.getElementById("voiceStatus").textContent=
+      "Commande reconnue : "+text;
+
     sendMessage();
   };
+
   recognition.onerror=()=>{
-    document.getElementById("voiceStatus").textContent="Je n'ai pas réussi à comprendre. Réessayez.";
+    document.getElementById("voiceStatus").textContent=
+      "Je n'ai pas réussi à comprendre. Réessayez.";
   };
+
   recognition.start();
 }
 
-/* SYNTHÈSE VOCALE */
+/* VOIX D'ALFRED */
+
 function speak(text){
+
   if(!("speechSynthesis" in window))return;
+
   window.speechSynthesis.cancel();
+
   const utterance=new SpeechSynthesisUtterance(text);
+
   utterance.lang="fr-FR";
   utterance.rate=0.95;
   utterance.pitch=0.9;
+
   const voices=window.speechSynthesis.getVoices();
-  const frenchVoice=voices.find(v=>v.lang.toLowerCase().startsWith("fr"));
-  if(frenchVoice)utterance.voice=frenchVoice;
+
+  const frenchVoice=voices.find(v=>
+    v.lang.toLowerCase().startsWith("fr")
+  );
+
+  if(frenchVoice){
+    utterance.voice=frenchVoice;
+  }
+
   window.speechSynthesis.speak(utterance);
 }
+
 function stopSpeaking(){
-  if("speechSynthesis" in window)window.speechSynthesis.cancel();
+
+  if("speechSynthesis" in window){
+    window.speechSynthesis.cancel();
+  }
 }
 
-/* DÉMARRAGE */
+/* INITIALISATION */
+
 function initialize(){
+
   renderTasks();
   renderReminders();
   renderMessages();
   renderMemory();
   updateDashboard();
 }
+
 initialize();
+
 </script>
 </body>
 </html>
