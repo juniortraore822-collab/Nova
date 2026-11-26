@@ -16,7 +16,7 @@ app.post("/api/chat", async (req, res) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: model: "openai/gpt-oss-20b",
+          model: "openai/gpt-oss-20b",
           messages: [
             {
               role: "system",
