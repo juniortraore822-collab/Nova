@@ -16,7 +16,7 @@ app.post("/api/chat", async (req, res) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
+          model: model: "openai/gpt-oss-20b",
           messages: [
             {
               role: "system",
