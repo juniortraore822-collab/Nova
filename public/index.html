@@ -5,8 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NOVA Assistant</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       background: #090711;
@@ -14,6 +18,7 @@
       font-family: Arial, sans-serif;
       padding: 24px;
     }
+
     header {
       display: flex;
       align-items: center;
@@ -21,20 +26,49 @@
       border-bottom: 1px solid #302440;
       padding-bottom: 20px;
     }
+
     .logo {
-      background: linear-gradient(135deg,#a855f7,#5422a8);
+      background: linear-gradient(135deg, #a855f7, #5422a8);
       padding: 14px 19px;
       border-radius: 15px;
       font-size: 25px;
       font-weight: bold;
     }
-    h1 { margin: 0; letter-spacing: 3px; }
-    header p { color: #aaa; margin: 5px 0; }
-    .status { color: #55e6a5; font-size: 12px; margin-left: auto; }
-    main { text-align: center; margin-top: 65px; }
-    .star { font-size: 65px; color: #bd82ff; }
-    h2 { font-size: 25px; }
-    .intro { color: #aaa; }
+
+    h1 {
+      margin: 0;
+      letter-spacing: 3px;
+    }
+
+    header p {
+      color: #aaa;
+      margin: 5px 0;
+    }
+
+    .status {
+      color: #55e6a5;
+      font-size: 12px;
+      margin-left: auto;
+    }
+
+    main {
+      text-align: center;
+      margin-top: 65px;
+    }
+
+    .star {
+      font-size: 65px;
+      color: #bd82ff;
+    }
+
+    h2 {
+      font-size: 25px;
+    }
+
+    .intro {
+      color: #aaa;
+    }
+
     .panel {
       margin-top: 40px;
       background: #171221;
@@ -42,6 +76,7 @@
       border-radius: 20px;
       border: 1px solid #38254e;
     }
+
     input {
       width: 100%;
       padding: 16px;
@@ -51,6 +86,7 @@
       color: white;
       font-size: 16px;
     }
+
     button {
       margin-top: 15px;
       width: 100%;
@@ -61,32 +97,83 @@
       color: white;
       font-size: 16px;
     }
-    #answer { color: #d6b9ff; margin-top: 20px; }
+
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    #answer {
+      color: #d6b9ff;
+      margin-top: 20px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      text-align: left;
+    }
   </style>
 </head>
+
 <body>
+
   <header>
     <div class="logo">N</div>
+
     <div>
       <h1>NOVA</h1>
       <p>Assistant personnel intelligent</p>
     </div>
+
     <span class="status">● EN LIGNE</span>
   </header>
+
   <main>
     <div class="star">✦</div>
+
     <h2>Bonjour, bienvenue !</h2>
-    <p class="intro">Je suis NOVA. Comment puis-je t'aider ?</p>
+
+    <p class="intro">
+      Je suis NOVA. Comment puis-je t'aider ?
+    </p>
+
     <div class="panel">
-      <input id="question" placeholder="Écris quelque chose...">
-      <button onclick="respond()">Envoyer à NOVA ➜</button>
+      <input
+        id="question"
+        type="text"
+        placeholder="Écris quelque chose..."
+      >
+
+      <button id="sendButton" onclick="respond()">
+        Envoyer à NOVA ➜
+      </button>
+
       <div id="answer"></div>
     </div>
   </main>
+
   <script>
+
+    // Charger la mémoire enregistrée sur l'iPhone
+    let conversation = [];
+
+    try {
+      conversation = JSON.parse(
+        localStorage.getItem("nova_memory") || "[]"
+      );
+
+      if (!Array.isArray(conversation)) {
+        conversation = [];
+      }
+    } catch (error) {
+      conversation = [];
+    }
+
     async function respond() {
-      const q = document.getElementById("question").value.trim();
+
+      const q = document
+        .getElementById("question")
+        .value.trim();
+
       const a = document.getElementById("answer");
+      const button = document.getElementById("sendButton");
 
       if (!q) {
         a.textContent = "Écris-moi quelque chose !";
@@ -94,14 +181,21 @@
       }
 
       a.textContent = "NOVA réfléchit...";
+      button.disabled = true;
 
       try {
+
         const response = await fetch("/api/chat", {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ message: q })
+
+          body: JSON.stringify({
+            message: q,
+            history: conversation.slice(-20)
+          })
         });
 
         const data = await response.json();
@@ -110,11 +204,52 @@
           throw new Error(data.error || "Erreur serveur");
         }
 
+        if (!data.reply) {
+          throw new Error("Réponse vide");
+        }
+
         a.textContent = data.reply;
+
+        // Enregistrer l'échange dans la mémoire
+        conversation.push(
+          { role: "user", content: q },
+          { role: "assistant", content: data.reply }
+        );
+
+        // Garder les 40 derniers messages
+        conversation = conversation.slice(-40);
+
+        localStorage.setItem(
+          "nova_memory",
+          JSON.stringify(conversation)
+        );
+
+        document.getElementById("question").value = "";
+
       } catch (error) {
-        a.textContent = "Je n'arrive pas à me connecter. Réessaie.";
+
+        console.error(error);
+
+        a.textContent =
+          "Je rencontre un problème de connexion. Réessaie.";
+
+      } finally {
+
+        button.disabled = false;
+
       }
     }
+
+    // Envoyer aussi avec la touche Entrée
+    document
+      .getElementById("question")
+      .addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+          respond();
+        }
+      });
+
   </script>
+
 </body>
 </html>
