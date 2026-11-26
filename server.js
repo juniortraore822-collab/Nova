@@ -6,13 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-if (!process.env.GEMINI_API_KEY) {
-  console.error("La clé GEMINI_API_KEY est absente !");
-}
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY || ""
-);
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 app.post("/api/chat", async (req, res) => {
   try {
@@ -20,13 +16,29 @@ app.post("/api/chat", async (req, res) => {
       model: "gemini-3.8-flash"
     });
 
-    const result = await model.generateContent(req.body.message);
+    let result;
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        result = await model.generateContent(req.body.message);
+        break;
+      } catch (error) {
+        console.error("Tentative", attempt, error.message);
+
+        if (attempt === 3 || !String(error.message).includes("503")) {
+          throw error;
+        }
+
+        await wait(attempt * 3000);
+      }
+    }
+
     res.json({ reply: result.response.text() });
 
   } catch (error) {
     console.error("ERREUR GEMINI :", error);
     res.status(500).json({
-      error: "Erreur de connexion à NOVA."
+      error: "Gemini est temporairement indisponible. Réessaie."
     });
   }
 });
